@@ -271,25 +271,6 @@
 </head>
 <body>
 
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/2th6s7i4yfrbbwm6iyr13/X.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/ptpruv4gtulhluk7lb7xl/Asuero.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/o0yhi6d0k0jfrlvogm9tc/Aman.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/23t4up0rgpf7dmqmgw43f/Mardoqueo.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/5tqhpywvr5vknoz9tgr6o/Ester.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/cfilp7pruyp1kldrdnsjf/Hegai.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/rah3t85npj941fwne1vio/forti.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/96mmff2dq05zhtw7061pz/silla.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/rg0xn2hj3w68rj25w8ppk/planta.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/jakuncpml6k5yyv0yyrfc/arbusto-1.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/kxoemosineorhr4wqy3uo/arbusto-2.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/gumpf8q65bn72361tctqo/jarron.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/c9nmfb7nuechl2eyg03nf/alfombra-horizontal-1.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/90g56vqsg7ssyqcbzcfpv/alfombra-horizontal-2.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/gtk73l8nyhbqzel65h43w/alfombra-vertical-2.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/bl8t1gda1cp3utkgzehrd/alfombra-vertical-1.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/q2tm14xzuechmom2l03t2/cama-1.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/dihbbxhrscnkkc9pwqa7i/cama-2.png?dl=1">
-
 <div id="loader-wrapper">
     <div class="spinner"></div>
     <div style="font-family: 'Changa One', sans-serif; color: #e0e0e0;">Cargando Misterio...</div>
@@ -366,37 +347,37 @@
 <script>
 const suspects = [
     {name:"Asuero", icon:"imagenes/personajes/Asuero.png", clue: "Él estaba al lado del jarrón en la entrada."},
-    {name:"Amán", icon:"https://www.dropbox.com/scl/fi/o0yhi6d0k0jfrlvogm9tc/Aman.png?dl=1", clue: "Él estaba sentado en una silla."},
-    {name:"Mardoqueo", icon:"https://www.dropbox.com/scl/fi/23t4up0rgpf7dmqmgw43f/Mardoqueo.png?dl=1", clue: "Él era la única persona sobre una alfombra."},
-    {name:"Ester", icon:"https://www.dropbox.com/scl/fi/5tqhpywvr5vknoz9tgr6o/Ester.png?dl=1", clue: "Ella estaba en el dormitorio."},
-    {name:"Hegai", icon:"https://www.dropbox.com/scl/fi/cfilp7pruyp1kldrdnsjf/Hegai.png?dl=1", clue: "Él estaba al lado de un arbusto o planta."},
-    {name:"Forti", icon:"https://www.dropbox.com/scl/fi/o32fts2f8m1r15axidhg6/Forti.png?dl=1", clue: "Él estaba en la casilla que queda vacía."}
+    {name:"Amán", icon:"imagenes/personajes/Aman.png", clue: "Él estaba sentado en una silla."},
+    {name:"Mardoqueo", icon:"imagenes/personajes/Mardoqueo.png", clue: "Él era la única persona sobre una alfombra."},
+    {name:"Ester", icon:"imagenes/personajes/Ester.png", clue: "Ella estaba en el dormitorio."},
+    {name:"Hegai", icon:"imagenes/personajesHegai.png", clue: "Él estaba al lado de un arbusto o planta."},
+    {name:"Forti", icon:"imagenes/personajes/Forti.png", clue: "Él estaba en la casilla que queda vacía."}
 ];
 
 const objects = [
-    {r:1, c:0, img: "https://www.dropbox.com/scl/fi/96mmff2dq05zhtw7061pz/silla.png?dl=1", p:true, scale: "90%"}, 
-    {r:2, c:0, img: "https://www.dropbox.com/scl/fi/96mmff2dq05zhtw7061pz/silla.png?dl=1", p:true, scale: "90%"}, 
-    {r:0, c:1, img: "https://www.dropbox.com/scl/fi/96mmff2dq05zhtw7061pz/silla.png?dl=1", p:true, scale: "90%"}, 
-    {r:3, c:0, img: "https://www.dropbox.com/scl/fi/rg0xn2hj3w68rj25w8ppk/planta.png?dl=1", p:false, scale: "85%"}, 
-    {r:1, c:4, img: "https://www.dropbox.com/scl/fi/rg0xn2hj3w68rj25w8ppk/planta.png?dl=1", p:false, scale: "85%"}, 
-    {r:4, c:3, img: "https://www.dropbox.com/scl/fi/jakuncpml6k5yyv0yyrfc/arbusto-1.png?dl=1", p:false, scale: "90%"}, 
-    {r:5, c:4, img: "https://www.dropbox.com/scl/fi/kxoemosineorhr4wqy3uo/arbusto-2.png?dl=1", p:false, scale: "90%"},
-    {r:5, c:1, img: "https://www.dropbox.com/scl/fi/gumpf8q65bn72361tctqo/jarron.png?dl=1", p:false, scale: "85%"},
-    {r:4, c:0, img: "https://www.dropbox.com/scl/fi/c9nmfb7nuechl2eyg03nf/alfombra-horizontal-1.png?dl=1", p:true, scale: "99.8%"}, 
-    {r:4, c:1, img: "https://www.dropbox.com/scl/fi/90g56vqsg7ssyqcbzcfpv/alfombra-horizontal-2.png?dl=1", p:true, scale: "103%"}, 
-    {r:2, c:3, img: "https://www.dropbox.com/scl/fi/c9nmfb7nuechl2eyg03nf/alfombra-horizontal-1.png?dl=1", p:true, scale: "103%"}, 
-    {r:2, c:4, img: "https://www.dropbox.com/scl/fi/90g56vqsg7ssyqcbzcfpv/alfombra-horizontal-2.png?dl=1", p:true, scale: "103%"}, 
-    {r:0, c:5, img: "https://www.dropbox.com/scl/fi/gtk73l8nyhbqzel65h43w/alfombra-vertical-2.png?dl=1", p:true, scale: "100%"}, 
-    {r:1, c:5, img: "https://www.dropbox.com/scl/fi/bl8t1gda1cp3utkgzehrd/alfombra-vertical-1.png?dl=1", p:true, scale: "103%"}, 
-    {r:0, c:3, img: "https://www.dropbox.com/scl/fi/q2tm14xzuechmom2l03t2/cama-1.png?dl=1", p:true, scale: "103%"}, 
-    {r:0, c:4, img: "https://www.dropbox.com/scl/fi/dihbbxhrscnkkc9pwqa7i/cama-2.png?dl=1", p:true, scale: "103%"},
-    {r:3, c:3, img: "https://www.dropbox.com/scl/fi/kfscrgff2ppd0sddfyu36/mesa-horizontal-1.png?dl=1", p:false, scale: "106%"},
-    {r:3, c:4, img: "https://www.dropbox.com/scl/fi/ipgrryo0puyoov4iwytsh/mesa-horizontal-2.png?dl=1", p:false, scale: "106%"},
-    {r:1, c:1, img: "https://www.dropbox.com/scl/fi/djfm0rvg3somcbg8g7f9l/mesa-vertical-2.png?dl=1", p:false, scale: "101%"},
-    {r:2, c:1, img: "https://www.dropbox.com/scl/fi/h6is33tcecbw1zlsfxd6i/mesa-vertical-1.png?dl=1", p:false, scale: "101%"},
+    {r:1, c:0, img: "imagenes/elementos/silla.png", p:true, scale: "90%"}, 
+    {r:2, c:0, img: "imagenes/elementos/silla.png", p:true, scale: "90%"}, 
+    {r:0, c:1, img: "imagenes/elementos/silla.png", p:true, scale: "90%"}, 
+    {r:3, c:0, img: "imagenes/elementos/planta.png", p:false, scale: "85%"}, 
+    {r:1, c:4, img: "imagenes/elementos/planta.png", p:false, scale: "85%"}, 
+    {r:4, c:3, img: "imagenes/elementos/arbusto-1.png", p:false, scale: "90%"}, 
+    {r:5, c:4, img: "imagenes/elementos/arbusto-2.png", p:false, scale: "90%"},
+    {r:5, c:1, img: "imagenes/elementos/jarron.png", p:false, scale: "85%"},
+    {r:4, c:0, img: "imagenes/elementos/alfombra-horizontal-1.png", p:true, scale: "99.8%"}, 
+    {r:4, c:1, img: "imagenes/elementos/alfombra-horizontal-2.png", p:true, scale: "103%"}, 
+    {r:2, c:3, img: "imagenes/elementos/alfombra-horizontal-1.png", p:true, scale: "103%"}, 
+    {r:2, c:4, img: "imagenes/elementos/alfombra-horizontal-2.png", p:true, scale: "103%"}, 
+    {r:0, c:5, img: "imagenes/elementos/alfombra-vertical-2.png", p:true, scale: "100%"}, 
+    {r:1, c:5, img: "imagenes/elementos/alfombra-vertical-1.png", p:true, scale: "103%"}, 
+    {r:0, c:3, img: "imagenes/elementos/cama-1.png", p:true, scale: "103%"}, 
+    {r:0, c:4, img: "imagenes/elementos/cama-2.png", p:true, scale: "103%"},
+    {r:3, c:3, img: "imagenes/elementos/mesa-horizontal-1.png", p:false, scale: "106%"},
+    {r:3, c:4, img: "imagenes/elementos/mesa-horizontal-2.png", p:false, scale: "106%"},
+    {r:1, c:1, img: "imagenes/elementos/mesa-vertical-2.png", p:false, scale: "101%"},
+    {r:2, c:1, img: "imagenes/elementos/mesa-vertical-1.png", p:false, scale: "101%"},
 ];
 
-const blockXImg = "https://www.dropbox.com/scl/fi/2th6s7i4yfrbbwm6iyr13/X.png?dl=1";
+const blockXImg = "imagenes/elementos/X.png";
 
 const roomMap = [['A','A','A','B','B','B'],['A','A','A','B','B','B'],['A','A','A','C','C','C'],['A','A','A','C','C','C'],['D','D','E','E','E','E'],['D','D','E','E','E','E']];
 const roomLabels = [{r:3, c:1, text:"Salón"}, {r:1, c:4, text:"Dormitorio"}, {r:3, c:4, text:"Patio"}, {r:5, c:0, text:"Entrada"}, {r:5, c:3, text:"Jardín"}];
