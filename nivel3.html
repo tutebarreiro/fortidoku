@@ -272,27 +272,6 @@
 </head>
 <body>
 
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/l9v19iebkzvricee8tg6w/El-as.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/yfmo14lj9dp042rcb8r6j/Eliseo.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/vw79kswzhh38l6gwgm09h/Jezabel.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/wjtb7uv42dhba6ykahuf6/Safat.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/5nz33a4ggipiw8r9jbu5f/Acab.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/o32fts2f8m1r15axidhg6/Forti.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/lwn2fp8xznqcj2qf9o59p/mesa-triple-1.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/i4jersqjjca381vq9x4hf/mesa-triple-2.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/afedgb905szyza0xzcgxz/mesa-triple-3.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/8hsnz0jys567gnfn45ej6/Mesa.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/os450hfipokvj5us7937n/silla-2.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/19zh9j5ehhvjra0zbq70b/arbol.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/f1pzcfxp166txrow6vula/barro.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/xf1n91jae2tzf5fp36bfu/Tronco-1.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/jakuncpml6k5yyv0yyrfc/arbusto-1.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/2th6s7i4yfrbbwm6iyr13/X.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/xh5fbar9nbbgwtb2cdi45/buey-arando-1.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/k3ovrzutw1eoposr7fmlj/buey-arando-2.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/atbvrqoliws064gc8yd8e/buey-arando-3.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/lmr7caadl28tpuy78gwv8/buey-arando-4.png?dl=1">
-
 <div id="loader-wrapper">
     <div class="spinner"></div>
     <div style="font-family: 'Changa One', sans-serif; color: #e0e0e0;">Cargando Misterio...</div>
@@ -368,38 +347,38 @@
 <script src="./progress.js"></script>
 <script>
 const suspects = [
-    {name:"Eliseo", icon:"https://www.dropbox.com/scl/fi/yfmo14lj9dp042rcb8r6j/Eliseo.png?dl=1", clue: "Él se encontraba arando el campo."},
-    {name:"Elías", icon:"https://www.dropbox.com/scl/fi/l9v19iebkzvricee8tg6w/El-as.png?dl=1", clue: "Él estaba sobre un charco de lodo."},
-    {name:"Jezabel", icon:"https://www.dropbox.com/scl/fi/vw79kswzhh38l6gwgm09h/Jezabel.png?dl=1", clue: "Ella estaba sentada en una silla."},
-    {name:"Acab", icon:"https://www.dropbox.com/scl/fi/5nz33a4ggipiw8r9jbu5f/Acab.png?dl=1", clue: "Él se encontraba solo en el jardín."},
-    {name:"Safat", icon:"https://www.dropbox.com/scl/fi/wjtb7uv42dhba6ykahuf6/Safat.png?dl=1", clue: "Él estaba al lado de un tronco."},
-    {name:"Forti", icon:"https://www.dropbox.com/scl/fi/o32fts2f8m1r15axidhg6/Forti.png?dl=1", clue: "Él estaba en la casilla que queda vacía."}
+    {name:"Eliseo", icon:"imagenes/personajes/eliseo.png", clue: "Él se encontraba arando el campo."},
+    {name:"Elías", icon:"imagenes/personajes/elias.png", clue: "Él estaba sobre un charco de lodo."},
+    {name:"Jezabel", icon:"imagenes/personajes/jezabel.png", clue: "Ella estaba sentada en una silla."},
+    {name:"Acab", icon:"imagenes/personajes/acab.png", clue: "Él se encontraba solo en el jardín."},
+    {name:"Safat", icon:"imagenes/personajes/safat.png", clue: "Él estaba al lado de un tronco."},
+    {name:"Forti", icon:"imagenes/personajes/forti.png", clue: "Él estaba en la casilla que queda vacía."}
 ];
 
 const objects = [
-    {r:0, c:0, img: "https://www.dropbox.com/scl/fi/8hsnz0jys567gnfn45ej6/Mesa.png?dl=1", p:false, scale: "100%"}, 
-    {r:1, c:1, img: "https://www.dropbox.com/scl/fi/lwn2fp8xznqcj2qf9o59p/mesa-triple-1.png?dl=1", p:false, scale: "103%"},
-    {r:1, c:2, img: "https://www.dropbox.com/scl/fi/i4jersqjjca381vq9x4hf/mesa-triple-2.png?dl=1", p:false, scale: "107%"}, 
-    {r:0, c:2, img: "https://www.dropbox.com/scl/fi/afedgb905szyza0xzcgxz/mesa-triple-3.png?dl=1", p:false, scale: "107%"},
-    {r:0, c:1, img: "https://www.dropbox.com/scl/fi/os450hfipokvj5us7937n/silla-2.png?dl=1", p:true, scale: "85%"},
-    {r:2, c:3, img: "https://www.dropbox.com/scl/fi/os450hfipokvj5us7937n/silla-2.png?dl=1", p:true, scale: "85%"}, 
-    {r:2, c:4, img: "https://www.dropbox.com/scl/fi/os450hfipokvj5us7937n/silla-2.png?dl=1", p:true, scale: "85%"}, 
-    {r:1, c:4, img: "https://www.dropbox.com/scl/fi/19zh9j5ehhvjra0zbq70b/arbol.png?dl=1", p:false, scale: "105%"},
-    {r:0, c:3, img: "https://www.dropbox.com/scl/fi/jakuncpml6k5yyv0yyrfc/arbusto-1.png?dl=1", p:false, scale: "101%"}, 
-    {r:4, c:3, img: "https://www.dropbox.com/scl/fi/f1pzcfxp166txrow6vula/barro.png?dl=1", p:true, scale: "98%"}, 
-    {r:5, c:1, img: "https://www.dropbox.com/scl/fi/f1pzcfxp166txrow6vula/barro.png?dl=1", p:true, scale: "98%"}, 
-    {r:4, c:1, img: "https://www.dropbox.com/scl/fi/atbvrqoliws064gc8yd8e/buey-arando-3.png?dl=1", p:true, scale: "105%"},
-    {r:4, c:2, img: "https://www.dropbox.com/scl/fi/lmr7caadl28tpuy78gwv8/buey-arando-4.png?dl=1", p:true, scale: "105%"},
-    {r:5, c:3, img: "https://www.dropbox.com/scl/fi/xh5fbar9nbbgwtb2cdi45/buey-arando-1.png?dl=1", p:true, scale: "105%"},
-    {r:5, c:4, img: "https://www.dropbox.com/scl/fi/k3ovrzutw1eoposr7fmlj/buey-arando-2.png?dl=1", p:true, scale: "105%"},
-    {r:0, c:5, img: "https://www.dropbox.com/scl/fi/xf1n91jae2tzf5fp36bfu/Tronco-1.png?dl=1", p:false, scale: "100%"},
-    {r:2, c:2, img: "https://www.dropbox.com/scl/fi/xf1n91jae2tzf5fp36bfu/Tronco-1.png?dl=1", p:false, scale: "100%"}, 
-    {r:3, c:3, img: "https://www.dropbox.com/scl/fi/xf1n91jae2tzf5fp36bfu/Tronco-1.png?dl=1", p:false, scale: "100%"},    
-    {r:3, c:4, img: "https://www.dropbox.com/scl/fi/xf1n91jae2tzf5fp36bfu/Tronco-1.png?dl=1", p:false, scale: "100%"},
+    {r:0, c:0, img: "imagenes/elementos/mesa.png", p:false, scale: "100%"}, 
+    {r:1, c:1, img: "imagenes/elementos/mesa-triple-1.png", p:false, scale: "103%"},
+    {r:1, c:2, img: "imagenes/elementos/mesa-triple-2.png", p:false, scale: "107%"}, 
+    {r:0, c:2, img: "imagenes/elementos/mesa-triple-3.png", p:false, scale: "107%"},
+    {r:0, c:1, img: "imagenes/elementos/silla-2.png", p:true, scale: "85%"},
+    {r:2, c:3, img: "imagenes/elementos/silla-2.png", p:true, scale: "85%"}, 
+    {r:2, c:4, img: "imagenes/elementos/silla-2.png", p:true, scale: "85%"}, 
+    {r:1, c:4, img: "imagenes/elementos/arbol.png", p:false, scale: "105%"},
+    {r:0, c:3, img: "himagenes/elementos/arbusto-1.png", p:false, scale: "101%"}, 
+    {r:4, c:3, img: "imagenes/elementos/barro.png", p:true, scale: "98%"}, 
+    {r:5, c:1, img: "imagenes/elementos/barro.png", p:true, scale: "98%"}, 
+    {r:4, c:1, img: "imagenes/elementos/buey-arando-3.png", p:true, scale: "105%"},
+    {r:4, c:2, img: "imagenes/elementos/buey-arando-4.png", p:true, scale: "105%"},
+    {r:5, c:3, img: "imagenes/elementos/buey-arando-1.png", p:true, scale: "105%"},
+    {r:5, c:4, img: "imagenes/elementos/buey-arando-2.png", p:true, scale: "105%"},
+    {r:0, c:5, img: "imagenes/elementos/tronco-1.png", p:false, scale: "100%"},
+    {r:2, c:2, img: "imagenes/elementos/tronco-1.png", p:false, scale: "100%"}, 
+    {r:3, c:3, img: "imagenes/elementos/tronco-1.png", p:false, scale: "100%"},    
+    {r:3, c:4, img: "imagenes/elementos/tronco-1.png", p:false, scale: "100%"},
 
 ];
 
-const blockXImg = "https://www.dropbox.com/scl/fi/2th6s7i4yfrbbwm6iyr13/X.png?dl=1";
+const blockXImg = "imagenes/elementos/X.png";
 
 const roomMap = [['A','A','A','B','C','C'],['A','A','A','B','B','C'],['A','A','A','B','B','B'],['A','D','D','D','D','D'],['D','D','D','D','D','D'],['D','D','D','D','D','D'],['D','D','D','D','D','D']];
 const roomLabels = [{r:2, c:1, text:"Palacio"}, {r:5, c:2, text:"Campo"}, {r:2, c:4, text:"Jardín"}, {r:0, c:4, text:"Cueva"}];
