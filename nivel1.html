@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Gasoek+One&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Boldonse&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Changa+One:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz:wght@200..700&display=swap" rel="stylesheet">
+
+<title>Misterio Bíblico - Versión Restaurada</title>
+<style>
+    body {
+        margin: 0;
+        font-family: 'Verdana', sans-serif;
+        user-select: none;
+        overflow: hidden;
+        background:
+            radial-gradient(circle at 15% 10%, rgba(212,163,115,0.10), transparent 35%),
+            radial-gradient(circle at 85% 90%, rgba(212,163,115,0.07), transparent 40%),
+            linear-gradient(160deg, #211c18 0%, #171411 100%);
+    }
+    
+    /* Pantalla de carga */
+    #loader-wrapper {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: #1a1a1a;
+        display: flex; flex-direction: column;
+        justify-content: center; align-items: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease;
+    }
+    .spinner {
+        width: 50px; height: 50px;
+        border: 5px solid #333333;
+        border-top: 5px solid #d4a373;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 15px;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    /* Contenido oculto inicialmente */
+    #main-content { opacity: 0; transition: opacity 0.8s ease; }
+
+    .container { display:grid; grid-template-columns: 480px auto 280px; height:100vh; width: 100vw; }
+    .sidebar {
+        background: linear-gradient(180deg, #2a241f 0%, #211c18 100%);
+        padding: 20px;
+        border-right: 1px solid rgba(212,163,115,0.35);
+        overflow-y: auto;
+    }
+    #suspects-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+    
+    .suspect { 
+        background:#2a2a2a; border-radius:10px; padding: 12px; cursor:pointer; text-align:center; border: 2px solid #444444; 
+        display: flex; flex-direction: column; align-items: center; min-height: 240px; transition: 0.2s; 
+    }
+    .suspect.selected { border-color: #d4a373; background: #333333; box-shadow: 0 4px 10px rgba(212, 163, 115, 0.3); }
+    .suspect.placed { opacity: 0.4; filter: grayscale(1); border-style: dashed; }
+    
+    .suspect img { width: 140px; height: 140px; object-fit: contain; margin-bottom: 5px; }
+    .suspect-name { font-weight: bold; color: #e0e0e0; font-size: 1.0em; margin-bottom: 5px; font-family: 'Boldonse', serif}
+    .clue-text { font-size: 22px; color: #aaaaaa; border-top: 1px dashed #d4a373; margin-top: auto; padding-top: 8px; width: 100%; line-height: 1.3; font-family: 'Yanone Kaffeesatz', serif }
+
+    .board {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background:
+            radial-gradient(circle at 50% 30%, rgba(212,163,115,0.06), transparent 45%),
+            linear-gradient(180deg, #1a1613 0%, #14110f 100%);
+        flex-direction: column;
+        flex-grow: 1;
+        position: relative;
+    }
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(6, 120px);
+        grid-template-rows: repeat(6, 120px);
+        border: 8px solid #3a2f25;
+        background: #221d18;
+        box-shadow:
+            0 14px 30px rgba(0,0,0,0.45),
+            inset 0 0 0 1px rgba(255,230,200,0.05);
+        position: relative;
+    }
+    .grid.game-over .cell { filter: grayscale(1); opacity: 0.4; pointer-events: none; transition: all 1s ease; }
+
+    .cell { border: 1px solid #333333; position:relative; display:flex; justify-content:center; align-items:center; cursor: pointer; width: 120px; height: 120px; box-sizing: border-box; transition: 0.1s; }
+    .cell::after {
+        content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+        border: 0px solid white; pointer-events: none; z-index: 200; transition: border-width 0.1s;
+    }
+    .cell:hover::after { border-width: 5px; }
+    .cell.blocked:hover::after { border-color: #e63946; }
+
+    #solved-stamp {
+        display: none; position: absolute; z-index: 500; top: 50%; left: 50%;
+        transform: translate(-50%, -50%) rotate(-15deg);
+        border: 15px double #e63946; color: #e63946; font-size: 80px; font-weight: 900;
+        padding: 20px 50px; border-radius: 20px; text-transform: uppercase;
+        background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(2px); pointer-events: none;
+    }
+    @keyframes stampAnimation {
+        0% { transform: translate(-50%, -50%) rotate(-15deg) scale(5); opacity: 0; }
+        100% { transform: translate(-50%, -50%) rotate(-15deg) scale(1); opacity: 1; }
+    }
+    .stamped { display: block !important; animation: stampAnimation 0.3s cubic-bezier(0.6, 0.04, 0.98, 0.34) forwards; }
+
+    .cell-object { position: absolute; object-fit: contain; z-index: 5; pointer-events: none; }
+    .character { position: absolute; width: 100px; z-index: 20; pointer-events: none; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3)); }
+    
+    .block-x { 
+        position: absolute; z-index: 25; pointer-events: none; top: 50%; left: 50%;
+        transform: translate(-50%, -50%); width: 90px; height: 90px; object-fit: contain; will-change: transform, opacity;
+    }
+    @keyframes popIn { 
+        0% { transform: translate(-50%, -50%) scale(0); opacity: 0; } 
+        100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 
+    }
+    .block-x-animated { animation: popIn 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important; }
+
+    .status-circle { position: absolute; z-index: 250; width: 100%; height: 100%; top: 0; left: 0; transform: rotate(-90deg); }
+    .status-circle circle { fill: none; stroke-width: 8; stroke-linecap: round; stroke-dasharray: 350; stroke-dashoffset: 350; animation: draw 0.6s forwards; }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+    .circle-correct { stroke: #2ecc71; } .circle-wrong { stroke: #e63946; }
+
+    .hold-progress-svg { position: absolute; width: 100%; height: 100%; top: 0; left: 0; transform: rotate(-90deg); z-index: 210; opacity: 0; }
+    .hold-progress-circle { fill: none; stroke: #2ecc71; stroke-width: 8; stroke-dasharray: 350; stroke-dashoffset: 350; }
+    .loading .hold-progress-svg { opacity: 1; }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 2000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.6);
+
+        justify-content: center;  /* centra horizontal */
+        align-items: center;      /* centra vertical */
+    }
+    
+    .modal-content {
+        background:
+            radial-gradient(circle at 20% 15%, rgba(212,163,115,0.10), transparent 40%),
+            radial-gradient(circle at 80% 85%, rgba(212,163,115,0.08), transparent 45%),
+            linear-gradient(165deg, #2b2620 0%, #1f1b17 100%);
+        color: #efe6d8;
+        margin: 2% auto;
+        padding: 25px;
+        border-radius: 16px;
+        width: 90%;
+        max-width: 600px;
+        max-height: 85vh;
+        overflow-y: auto;
+        line-height: 1.6;
+        border: 2px solid #b98a5d;
+        box-shadow:
+            0 16px 35px rgba(0,0,0,0.55),
+            inset 0 0 0 1px rgba(255,240,220,0.06);
+        position: relative;
+        font-size: 21px;
+        font-family: 'Yanone Kaffeesatz', sans-serif;
+    }
+
+    .close-btn {
+        position: absolute;
+        right: 22px;
+        top: 0px;
+        cursor: pointer;
+        font-size: 90px;
+        line-height: 1;
+        color: #d8a978;
+        transition: transform 0.15s ease, color 0.2s ease, text-shadow 0.2s ease;
+    }
+    .close-btn:hover {
+        color: #ffd8ad;
+        transform: scale(1.1);
+        text-shadow: 0 0 10px rgba(255,216,173,0.35);
+    }
+
+    .modal-content h2 {
+        color: #f5cd9e;
+        margin-top: 0;
+        margin-bottom: 8px;
+        border-bottom: 1px solid rgba(212,163,115,0.45);
+        padding-bottom: 6px;
+        letter-spacing: 0.3px;
+    }
+
+    .modal-content h3 {
+        color: #e9b883;
+        margin-bottom: 2px;
+        margin-top: 15px;
+        letter-spacing: 0.2px;
+    }
+
+    .modal-content ul {
+        margin-top: 0px;
+        padding-left: 20px;
+        color: #eee2d2;
+    }
+
+    .modal-content li {
+        margin-bottom: 4px;
+    }
+
+    .modal-content b {
+        color: #ffd9b5;
+        font-weight: 700;
+    }
+    
+    .controls {
+        background: linear-gradient(180deg, #2a241f 0%, #211c18 100%);
+        padding: 20px;
+        border-left: 1px solid rgba(212,163,115,0.35);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    button {
+        width: 100%;
+        padding: 15px;
+        cursor: pointer;
+        border-radius: 8px;
+        border: 1px solid #8f6b4a;
+        font-weight: bold;
+        background: #3a2f25;
+        color: #f0e4d2;
+        transition: 0.2s;
+    }
+    button:hover { filter: brightness(1.08); }
+
+    .active-tool { background: #d4a373 !important; color: white; }
+    #btn-verify { background: #2ecc71; color: white; border: none; padding: 20px; transition: background 0.3s, opacity 0.3s; }
+    #btn-verify:disabled { background: #bdc3c7 !important; cursor: not-allowed; opacity: 0.7; }
+
+    .room-A { background-color: #f3e5ab; background-image: radial-gradient(rgba(0,0,0,0.05) 1px, transparent 0); background-size: 20px 20px; } 
+    .room-B { background-color: #d1e9ff; background-image: linear-gradient(45deg, rgba(0,0,0,0.01) 25%, transparent 25%); background-size: 30px 30px; } 
+    .room-C { background-color: #bdc3c7; background-image: linear-gradient(rgba(0,0,0,0.05) 2px, transparent 2px); background-size: 40px 40px; } 
+    .room-D { background-color: #f8bbd0; } .room-E { background-color: #7cb342; }
+    .br { border-right: 5px solid #2c2c2c !important; } .bb { border-bottom: 5px solid #2c2c2c !important; }
+    .room-label { position: absolute; bottom: -5px; left: 8px; z-index: 45; font-weight: 900; font-size: 35px; font-family: 'Changa One', sans-serif; color: black; text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff; pointer-events: none; }
+#timer-panel {
+    margin-top: 12px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    color: #f0e4d2;
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    font-size: 28px;
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(212,163,115,0.35);
+    border-radius: 10px;
+    padding: 6px 14px;
+}
+#timer-panel strong {
+    color: #ffd8b0;
+    font-weight: 700;
+}
+
+</style>
+</head>
+<body>
+
+<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/2th6s7i4yfrbbwm6iyr13/X.png?dl=1">
+<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/ptpruv4gtulhluk7lb7xl/Asuero.png?dl=1">
+<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/o0yhi6d0k0jfrlvogm9tc/Aman.png?dl=1">
+<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/23t4up0rgpf7dmqmgw43f/Mardoqueo.png?dl=1">
+<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/5tqhpywvr5vknoz9tgr6o/Ester.png?dl=1">
+<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/cfilp7pruyp1kldrdnsjf/Hegai.png?dl=1">
+<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/rah3t85npj941fwne1vio/forti.png?dl=1">
+<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/96mmff2dq05zhtw7061pz/silla.png?dl=1">
+<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/rg0xn2hj3w68rj25w8ppk/planta.png?dl=1">
+<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/jakuncpml6k5yyv0yyrfc/arbusto-1.png?dl=1">
+<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/kxoemosineorhr4wqy3uo/arbusto-2.png?dl=1">
+<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/gumpf8q65bn72361tctqo/jarron.png?dl=1">
+<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/c9nmfb7nuechl2eyg03nf/alfombra-horizontal-1.png?dl=1">
+<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/90g56vqsg7ssyqcbzcfpv/alfombra-horizontal-2.png?dl=1">
+<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/gtk73l8nyhbqzel65h43w/alfombra-vertical-2.png?dl=1">
+<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/bl8t1gda1cp3utkgzehrd/alfombra-vertical-1.png?dl=1">
+<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/q2tm14xzuechmom2l03t2/cama-1.png?dl=1">
+<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/dihbbxhrscnkkc9pwqa7i/cama-2.png?dl=1">
+
+<div id="loader-wrapper">
+    <div class="spinner"></div>
+    <div style="font-family: 'Changa One', sans-serif; color: #e0e0e0;">Cargando Misterio...</div>
+</div>
+
+<div id="main-content">
+    <div id="howToPlayModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="toggleModal()">&times;</span>
+            <h2>Cómo jugar</h2>
+            <h3>Objetivo</h3>
+            <ul><li>Descubre quién estaba con Forti usando las pistas. Solo uno estaba con él (en la misma habitación).</li></ul>
+            <h3>Reglas</h3>
+            <ul>
+                <li>Una persona por fila y por columna.</li>
+                <li>"Al lado" significa directamente adyacente (arriba, abajo, derecha o izquierda) y en la misma habitación.</li>
+                <li>Los personajes solo pueden estar en casillas ocupables (no en mesas, árboles, arbustos, etc.).</li>
+            </ul>
+            <h3>Controles</h3>
+            <ul>
+                <li><b>Clic en personaje:</b> Seleccionar.</li>
+                <li><b>Clic rápido en casilla:</b> Añadir/quitar nota de personaje.</li>
+                <li><b>Mantener pulsado en casilla:</b> Colocar personaje.</li>
+            </ul>
+            <h3>Herramientas</h3>
+            <ul>
+                <li><b>❌ Bloqueo:</b> Marcar casilla como imposibles.</li>
+                <li><b>🧽 Borrador:</b> Borra casilla.</li>
+                <li><b>↩ Deshacer:</b> Revierte última acción.</li>
+            </ul>
+        </div>
+    </div>
+
+        <div id="errorModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeErrorModal()">&times;</span>
+                <h2>Revisa las pistas</h2>
+                <p id="errorModalText"></p>
+            </div>
+        </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <h3 style=" font-size: 28px; color: #e0e0e0; border-bottom: 2px solid #d4a373; display: inline-block; margin-bottom: 10px; font-family: 'Changa One', sans-serif; margin-top: 0px">Personajes</h3>
+            <div id="suspects-container"></div>
+        </div>
+        
+        <div class="board">
+            <h1 style="color: #e0e0e0; margin: 10px 0; font-family: 'Changa One', serif;">Palacio del Rey Asuero</h1>
+            <div class="grid" id="grid">
+                <div id="solved-stamp">RESUELTO</div>
+            </div>
+            <div id="timer-panel">
+                <span>Tiempo: <strong id="timer-display">00:00</strong></span>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <h3 style=" font-size: 28px; color: #e0e0e0; margin: 10px 0; font-family: 'Changa One', sans-serif;">Herramientas</h3>
+           <button id="btn-block" onclick="setTool('block')" style=" color: #e0e0e0; font-family: 'Yanone Kaffeesatz', serif; font-size: 30px;">❌ Bloqueo Manual</button>
+           <button id="btn-eraser" onclick="setTool('eraser')" style=" color: #e0e0e0; font-family: 'Yanone Kaffeesatz', serif; font-size: 30px;">🧽 Borrador</button>
+           <button onclick="undo()" style=" color: #e0e0e0; font-family: 'Yanone Kaffeesatz', serif; font-size: 30px;">↩ Deshacer</button>
+            <div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px;">
+                <button id="btn-verify" onclick="checkSolution()" style="font-family: 'Yanone Kaffeesatz', sans-serif; font-size: 35px;" disabled>VERIFICAR</button>
+                <button onclick="location.reload()" style="background:#e67e22; color:white; border:none; font-family: 'Yanone Kaffeesatz', sans-serif; font-size: 25px;">REINICIAR</button>
+                <button onclick="toggleModal()" style="background:#d4a373; color:white; border:none; font-family: 'Yanone Kaffeesatz', sans-serif; font-size: 25px;">CÓMO JUGAR ❓</button>
+                <button onclick="goToMenu()" style="background:#8f6b4a; color:white; border:none; font-family: 'Yanone Kaffeesatz', sans-serif; font-size: 25px;">⬅ VOLVER AL MENÚ</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="./progress.js"></script>
+<script>
+const suspects = [
+    {name:"Asuero", icon:"https://www.dropbox.com/scl/fi/ptpruv4gtulhluk7lb7xl/Asuero.png?dl=1", clue: "Él estaba al lado del jarrón en la entrada."},
+    {name:"Amán", icon:"https://www.dropbox.com/scl/fi/o0yhi6d0k0jfrlvogm9tc/Aman.png?dl=1", clue: "Él estaba sentado en una silla."},
+    {name:"Mardoqueo", icon:"https://www.dropbox.com/scl/fi/23t4up0rgpf7dmqmgw43f/Mardoqueo.png?dl=1", clue: "Él era la única persona sobre una alfombra."},
+    {name:"Ester", icon:"https://www.dropbox.com/scl/fi/5tqhpywvr5vknoz9tgr6o/Ester.png?dl=1", clue: "Ella estaba en el dormitorio."},
+    {name:"Hegai", icon:"https://www.dropbox.com/scl/fi/cfilp7pruyp1kldrdnsjf/Hegai.png?dl=1", clue: "Él estaba al lado de un arbusto o planta."},
+    {name:"Forti", icon:"https://www.dropbox.com/scl/fi/o32fts2f8m1r15axidhg6/Forti.png?dl=1", clue: "Él estaba en la casilla que queda vacía."}
+];
+
+const objects = [
+    {r:1, c:0, img: "https://www.dropbox.com/scl/fi/96mmff2dq05zhtw7061pz/silla.png?dl=1", p:true, scale: "90%"}, 
+    {r:2, c:0, img: "https://www.dropbox.com/scl/fi/96mmff2dq05zhtw7061pz/silla.png?dl=1", p:true, scale: "90%"}, 
+    {r:0, c:1, img: "https://www.dropbox.com/scl/fi/96mmff2dq05zhtw7061pz/silla.png?dl=1", p:true, scale: "90%"}, 
+    {r:3, c:0, img: "https://www.dropbox.com/scl/fi/rg0xn2hj3w68rj25w8ppk/planta.png?dl=1", p:false, scale: "85%"}, 
+    {r:1, c:4, img: "https://www.dropbox.com/scl/fi/rg0xn2hj3w68rj25w8ppk/planta.png?dl=1", p:false, scale: "85%"}, 
+    {r:4, c:3, img: "https://www.dropbox.com/scl/fi/jakuncpml6k5yyv0yyrfc/arbusto-1.png?dl=1", p:false, scale: "90%"}, 
+    {r:5, c:4, img: "https://www.dropbox.com/scl/fi/kxoemosineorhr4wqy3uo/arbusto-2.png?dl=1", p:false, scale: "90%"},
+    {r:5, c:1, img: "https://www.dropbox.com/scl/fi/gumpf8q65bn72361tctqo/jarron.png?dl=1", p:false, scale: "85%"},
+    {r:4, c:0, img: "https://www.dropbox.com/scl/fi/c9nmfb7nuechl2eyg03nf/alfombra-horizontal-1.png?dl=1", p:true, scale: "99.8%"}, 
+    {r:4, c:1, img: "https://www.dropbox.com/scl/fi/90g56vqsg7ssyqcbzcfpv/alfombra-horizontal-2.png?dl=1", p:true, scale: "103%"}, 
+    {r:2, c:3, img: "https://www.dropbox.com/scl/fi/c9nmfb7nuechl2eyg03nf/alfombra-horizontal-1.png?dl=1", p:true, scale: "103%"}, 
+    {r:2, c:4, img: "https://www.dropbox.com/scl/fi/90g56vqsg7ssyqcbzcfpv/alfombra-horizontal-2.png?dl=1", p:true, scale: "103%"}, 
+    {r:0, c:5, img: "https://www.dropbox.com/scl/fi/gtk73l8nyhbqzel65h43w/alfombra-vertical-2.png?dl=1", p:true, scale: "100%"}, 
+    {r:1, c:5, img: "https://www.dropbox.com/scl/fi/bl8t1gda1cp3utkgzehrd/alfombra-vertical-1.png?dl=1", p:true, scale: "103%"}, 
+    {r:0, c:3, img: "https://www.dropbox.com/scl/fi/q2tm14xzuechmom2l03t2/cama-1.png?dl=1", p:true, scale: "103%"}, 
+    {r:0, c:4, img: "https://www.dropbox.com/scl/fi/dihbbxhrscnkkc9pwqa7i/cama-2.png?dl=1", p:true, scale: "103%"},
+    {r:3, c:3, img: "https://www.dropbox.com/scl/fi/kfscrgff2ppd0sddfyu36/mesa-horizontal-1.png?dl=1", p:false, scale: "106%"},
+    {r:3, c:4, img: "https://www.dropbox.com/scl/fi/ipgrryo0puyoov4iwytsh/mesa-horizontal-2.png?dl=1", p:false, scale: "106%"},
+    {r:1, c:1, img: "https://www.dropbox.com/scl/fi/djfm0rvg3somcbg8g7f9l/mesa-vertical-2.png?dl=1", p:false, scale: "101%"},
+    {r:2, c:1, img: "https://www.dropbox.com/scl/fi/h6is33tcecbw1zlsfxd6i/mesa-vertical-1.png?dl=1", p:false, scale: "101%"},
+];
+
+const blockXImg = "https://www.dropbox.com/scl/fi/2th6s7i4yfrbbwm6iyr13/X.png?dl=1";
+
+const roomMap = [['A','A','A','B','B','B'],['A','A','A','B','B','B'],['A','A','A','C','C','C'],['A','A','A','C','C','C'],['D','D','E','E','E','E'],['D','D','E','E','E','E']];
+const roomLabels = [{r:3, c:1, text:"Salón"}, {r:1, c:4, text:"Dormitorio"}, {r:3, c:4, text:"Patio"}, {r:5, c:0, text:"Entrada"}, {r:5, c:3, text:"Jardín"}];
+const solution = { "Asuero": [5,0], "Amán": [0,1], "Mardoqueo": [2,4], "Ester": [1,3], "Hegai": [4,2], "Forti": [3,5] };
+
+let board = Array(6).fill().map(() => Array(6).fill(null)), manualBlocks = Array(6).fill().map(() => Array(6).fill(false)), autoBlocks = Array(6).fill().map(() => Array(6).fill(false)), notes = Array(6).fill().map(() => Array(6).fill().map(() => new Set())), history = [];
+let prevAutoBlocks = Array(6).fill().map(() => Array(6).fill(false));
+let selectedSuspect = 0, currentTool = null, holdTimer, holdDelayTimer, isVerifying = false, gameWon = false, lastPlaced = null;
+let elapsedSeconds = 0;
+let timerInterval = null;
+const cascadeStepMs = 160; // menor = más rápida la cascada
+
+// Lógica de carga
+function init() {
+    drawSuspects();
+    drawGrid();
+    updateVerifyButton();
+
+    const allImages = document.querySelectorAll('img');
+    let loadedCount = 0;
+    const totalImages = allImages.length;
+
+    if (totalImages === 0) { revealGame(); return; }
+
+    allImages.forEach(img => {
+        if (img.complete) checkAllLoaded();
+        else { img.addEventListener('load', checkAllLoaded); img.addEventListener('error', checkAllLoaded); }
+    });
+
+    function checkAllLoaded() {
+        loadedCount++;
+        if (loadedCount >= totalImages) revealGame();
+    }
+    updateTimerUI();
+
+}
+
+function revealGame() {
+    const loader = document.getElementById('loader-wrapper');
+    const content = document.getElementById('main-content');
+    loader.style.opacity = '0';
+    setTimeout(() => { 
+        loader.style.display = 'none'; 
+        content.style.opacity = '1';
+        startTimer(); // empieza cuando ya está todo visible y listo
+    }, 500);
+}
+
+function toggleModal() { const m = document.getElementById("howToPlayModal"); m.style.display = (m.style.display === "flex") ? "none" : "flex"; }
+
+function formatTime(totalSeconds) {
+    const mm = String(Math.floor(totalSeconds / 60)).padStart(2, "0");
+    const ss = String(totalSeconds % 60).padStart(2, "0");
+    return `${mm}:${ss}`;
+}
+
+function updateTimerUI() {
+    const timerEl = document.getElementById("timer-display");
+    if (timerEl) timerEl.textContent = formatTime(elapsedSeconds);
+}
+
+function startTimer() {
+    if (timerInterval) return;
+    timerInterval = setInterval(() => {
+        if (!gameWon) {
+            elapsedSeconds++;
+            updateTimerUI();
+        }
+    }, 1000);
+}
+
+function stopTimer() {
+    if (!timerInterval) return;
+    clearInterval(timerInterval);
+    timerInterval = null;
+}
+
+function showErrorModal(message) {
+    const modal = document.getElementById("errorModal");
+    const text = document.getElementById("errorModalText");
+    text.textContent = message;
+    modal.style.display = "flex";
+}
+
+function closeErrorModal() {
+    document.getElementById("errorModal").style.display = "none";
+    document.querySelectorAll('.status-circle').forEach(el => el.remove());
+}
+
+function saveState() {
+    history.push({ board: JSON.parse(JSON.stringify(board)), manualBlocks: JSON.parse(JSON.stringify(manualBlocks)), notes: notes.map(row => row.map(cell => new Set(cell))) });
+    if (history.length > 20) history.shift();
+}
+
+function undo() {
+    if (history.length > 0 && !isVerifying) {
+        let last = history.pop(); board = last.board; manualBlocks = last.manualBlocks; notes = last.notes;
+        lastPlaced = null; recalculateAutoBlocks(); drawGrid(); drawSuspects(); updateVerifyButton();
+    }
+}
+
+function setTool(t) {
+    if (isVerifying || gameWon) return;
+    currentTool = (currentTool === t) ? null : t;
+    document.querySelectorAll('.controls button').forEach(b => b.classList.remove('active-tool'));
+    if (currentTool) document.getElementById('btn-' + t).classList.add('active-tool');
+}
+
+function recalculateAutoBlocks() {
+    // Guardamos el estado anterior
+    prevAutoBlocks = autoBlocks.map(row => [...row]);
+
+    // Recalculamos
+    autoBlocks = Array(6).fill().map(() => Array(6).fill(false));
+
+    for (let r=0; r<6; r++) {
+        for (let c=0; c<6; c++) {
+            if (board[r][c] !== null) {
+                for (let i=0; i<6; i++) { 
+                    if (i !== c) autoBlocks[r][i] = true; 
+                    if (i !== r) autoBlocks[i][c] = true; 
+                }
+            }
+        }
+    }
+}
+
+function updateVerifyButton() { document.getElementById('btn-verify').disabled = (board.flat().filter(c => c !== null).length < 6); }
+
+function drawGrid() {
+    const g = document.getElementById("grid");
+    const stamp = document.getElementById("solved-stamp");
+    g.innerHTML = ""; g.appendChild(stamp);
+    
+    if (gameWon) g.classList.add('game-over');
+    
+    for (let r=0; r<6; r++) for (let c=0; c<6; c++) {
+        let cell = document.createElement("div");
+        const isBlocked = manualBlocks[r][c] || autoBlocks[r][c];
+        const occupable = !objects.find(o => o.r === r && o.c === c && !o.p);
+        cell.className = `cell room-${roomMap[r][c]} ${(!occupable || isBlocked) ? 'blocked' : ''}`;
+        cell.id = `cell-${r}-${c}`;
+        if (c < 5 && roomMap[r][c] !== roomMap[r][c+1]) cell.classList.add('br');
+        if (r < 5 && roomMap[r][c] !== roomMap[r+1][c]) cell.classList.add('bb');
+        
+        const label = roomLabels.find(l => l.r === r && l.c === c);
+        if (label) { let s = document.createElement("span"); s.className = "room-label"; s.innerText = label.text; cell.appendChild(s); }
+
+        cell.onmousedown = () => {
+            if (currentTool || isVerifying || gameWon || !occupable || isBlocked) return;
+            holdDelayTimer = setTimeout(() => {
+                cell.classList.add('loading');
+                const circle = cell.querySelector('.hold-progress-circle');
+                circle.style.transition = 'none'; circle.style.strokeDashoffset = '350';
+                void circle.offsetWidth;
+                circle.style.transition = 'stroke-dashoffset 800ms linear'; circle.style.strokeDashoffset = '0';
+                holdTimer = setTimeout(() => { 
+                    saveState(); notes[r][c].clear();
+                    for(let i=0; i<6; i++) for(let j=0; j<6; j++) if(board[i][j] === selectedSuspect) board[i][j] = null;
+                    board[r][c] = selectedSuspect; 
+                    lastPlaced = {r,c};
+                    recalculateAutoBlocks(); 
+                    drawGrid();
+                    drawSuspects();
+                    updateVerifyButton();
+
+                    // limpiar referencia al terminar la cascada aproximada
+                    setTimeout(() => { lastPlaced = null; }, 1600);
+                }, 800);
+            }, 150);
+        };
+        cell.onmouseup = cell.onmouseleave = () => { clearTimeout(holdDelayTimer); clearTimeout(holdTimer); cell.classList.remove('loading'); };
+
+        cell.onclick = () => {
+            if (isVerifying || gameWon) return;
+            if (currentTool === 'block' && board[r][c] === null) { saveState(); manualBlocks[r][c] = !manualBlocks[r][c]; drawGrid(); }
+            else if (currentTool === 'eraser') { saveState(); board[r][c] = null; manualBlocks[r][c] = false; notes[r][c].clear(); recalculateAutoBlocks(); drawGrid(); drawSuspects(); updateVerifyButton(); }
+            else if (holdDelayTimer) {
+                clearTimeout(holdDelayTimer); clearTimeout(holdTimer);
+                if (!occupable || isBlocked) return;
+                saveState(); 
+                if (notes[r][c].has(selectedSuspect)) notes[r][c].delete(selectedSuspect); 
+                else notes[r][c].add(selectedSuspect);
+                lastPlaced = null;
+                drawGrid();
+            }
+        };
+
+        let obj = objects.find(o => o.r === r && o.c === c);
+        if (obj && obj.img) {
+            let size = obj.scale || "85%"; 
+            cell.innerHTML += `<img src="${obj.img}" class="cell-object" style="width:${size}; height:${size};">`;
+        }
+
+        let notesHtml = `<div style="position:absolute; z-index:10; display:grid; grid-template-columns:repeat(2,1fr); width:100%; height:100%; pointer-events:none; padding:4px; padding-top:15px; box-sizing: border-box;">`;
+if (board[r][c] === null && !isBlocked) suspects.forEach((s, idx) => { 
+    notesHtml += `<div style="font-size:20px; font-family: 'Yanone Kaffeesatz', sans-serif; font-weight:bold; color:#333333; text-align:center; text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;">${notes[r][c].has(idx) ? s.name : ''}</div>`; 
+});
+        cell.innerHTML += notesHtml + '</div>';
+        cell.innerHTML += `<svg class="hold-progress-svg" viewBox="0 0 120 120"><circle class="hold-progress-circle" cx="60" cy="60" r="55" /></svg>`;
+        
+        if (board[r][c] !== null) cell.innerHTML += `<img src="${suspects[board[r][c]].icon}" class="character">`;
+        else if (occupable && (autoBlocks[r][c] || manualBlocks[r][c])) {
+            const isNewAutoBlock = autoBlocks[r][c] && !prevAutoBlocks[r][c];
+            const animate = isNewAutoBlock && lastPlaced;
+
+            // Distancia Manhattan desde el personaje recién colocado.
+            // En tu caso práctico (misma fila/columna), funciona perfecto para cascada.
+            const dist = lastPlaced ? (Math.abs(r - lastPlaced.r) + Math.abs(c - lastPlaced.c)) : 0;
+            const delay = dist * cascadeStepMs;
+
+            cell.innerHTML += `
+              <img
+                src="${blockXImg}"
+                class="block-x ${animate ? 'block-x-animated' : ''}"
+                style="${animate ? `animation-delay:${delay}ms;` : ''}"
+              >
+            `;
+        }
+        g.appendChild(cell);
+    }
+    prevAutoBlocks = autoBlocks.map(row => [...row]);
+}
+
+function drawSuspects() {
+    const s = document.getElementById("suspects-container"); s.innerHTML = "";
+    const placed = new Set(); for(let r=0; r<6; r++) for(let c=0; c<6; c++) if(board[r][c] !== null) placed.add(board[r][c]);
+    suspects.forEach((sus, i) => {
+        let div = document.createElement("div"); div.className = `suspect ${placed.has(i) ? 'placed' : ''} ${selectedSuspect === i ? 'selected' : ''}`;
+        div.innerHTML = `<img src="${sus.icon}"><span class="suspect-name">${sus.name}</span><div class="clue-text">${sus.clue}</div>`;
+        div.onclick = () => { if(!isVerifying && !gameWon) { selectedSuspect = i; drawSuspects(); } };
+        s.appendChild(div);
+    });
+}
+
+async function checkSolution() {
+    isVerifying = true; let allCorrect = true;
+    for (let i = 0; i < suspects.length; i++) {
+        const correctPos = solution[suspects[i].name]; let found = null;
+        for (let r=0; r<6; r++) for (let c=0; c<6; c++) if (board[r][c] === i) found = {r,c};
+        if (found) {
+            const isCorrect = (correctPos[0] === found.r && correctPos[1] === found.c);
+            if (!isCorrect) allCorrect = false;
+            const cell = document.getElementById(`cell-${found.r}-${found.c}`);
+            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute("viewBox", "0 0 120 120"); svg.classList.add("status-circle");
+            svg.innerHTML = `<circle class="${isCorrect?'circle-correct':'circle-wrong'}" cx="60" cy="60" r="55" />`;
+            cell.appendChild(svg); await new Promise(res => setTimeout(res, 400));
+        } else { allCorrect = false; }
+    }
+    if (allCorrect) { 
+        gameWon = true; 
+        stopTimer();
+
+        // Guardar estado resuelto del nivel 1
+        localStorage.setItem("mb_level_1_completed", "true");
+
+        // Guardar mejor tiempo del nivel 1
+        const timeKey = "mb_level_1_best_time";
+        const prevBest = Number(localStorage.getItem(timeKey) || 0);
+        if (prevBest === 0 || elapsedSeconds < prevBest) {
+        localStorage.setItem(timeKey, String(elapsedSeconds));
+        }
+
+        // Desbloquear nivel 2
+        MBProgress.unlockNextLevel(1);
+
+        document.getElementById("grid").classList.add("game-over");
+        document.getElementById("solved-stamp").classList.add("stamped"); 
+    }
+    else { 
+        showErrorModal("Alguno o algunos personajes no están en el lugar correcto. ¡Sigue revisando las pistas!"); 
+        isVerifying = false; 
+    }
+}
+
+init();
+
+function goToMenu() {
+    window.location.href = "./index.html"; // ajusta ruta si hace falta
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Changa+One:ital@0;1&family=Yanone+Kaffeesatz:wght@200..700&display=swap" rel="stylesheet">
+
+  <title>Misterio Bíblico - Selección de Niveles</title>
+
+  <style>
+    :root{
+      --bg-1:#211c18;
+      --bg-2:#171411;
+      --panel:#2a241f;
+      --panel-2:#1f1b17;
+      --gold:#d4a373;
+      --gold-soft:#f5cd9e;
+      --text:#efe6d8;
+      --muted:#cbb9a2;
+      --danger:#e63946;
+      --ok:#2ecc71;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      min-height:100vh;
+      color:var(--text);
+      font-family:'Yanone Kaffeesatz', sans-serif;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(212,163,115,0.10), transparent 35%),
+        radial-gradient(circle at 85% 90%, rgba(212,163,115,0.07), transparent 40%),
+        linear-gradient(160deg, var(--bg-1) 0%, var(--bg-2) 100%);
+    }
+
+    .page{
+      width:min(1200px,92%);
+      margin:0 auto;
+      padding:22px 0 30px;
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      margin-bottom:14px;
+    }
+
+    .brand{
+  font-family:'Changa One', sans-serif;
+  font-size:34px;
+  letter-spacing:1px;
+  color:#f0e4d2;
+  text-shadow:0 2px 10px rgba(0,0,0,.4);
+  margin:0;
+}
+
+.subtitle{
+  margin:0;
+  color:var(--muted);
+  font-size:22px;
+}
+
+    .chips{
+      display:flex;
+      justify-content:center;   /* centra horizontalmente */
+      align-items:center;
+      gap:8px;                  /* menos separación */
+      flex-wrap:wrap;
+      margin:12px 0 18px;       /* menos margen vertical */
+    }
+
+    .chip{
+      border:1px solid #8f6b4a;
+      border-radius:999px;
+      padding:6px 14px;         /* más chico */
+      font-size:18px;           /* más chico */
+      line-height:1;
+      color:#f0e4d2;
+      background:#3a2f25;
+      cursor:pointer;
+    }
+
+    .chip.active{
+      background:var(--gold);
+      color:white;
+      border-color:var(--gold);
+    }
+
+    .grid{
+  display:grid;
+  grid-template-columns: repeat(5, minmax(180px, 1fr));
+  gap:16px;
+}
+
+@media (max-width: 1100px){
+  .grid{ grid-template-columns: repeat(3, minmax(180px, 1fr)); }
+}
+@media (max-width: 700px){
+  .grid{ grid-template-columns: repeat(2, minmax(160px, 1fr)); }
+}
+
+    .level-card{
+      display:flex;
+      flex-direction:column;
+      min-height:270px;
+      border-radius:12px;
+      text-decoration:none;
+      overflow:hidden;
+      border:2px solid #b98a5d;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(212,163,115,0.10), transparent 40%),
+        radial-gradient(circle at 80% 85%, rgba(212,163,115,0.08), transparent 45%),
+        linear-gradient(165deg, #2b2620 0%, #1f1b17 100%);
+      box-shadow:0 10px 24px rgba(0,0,0,.45);
+      transition:transform .15s ease, box-shadow .2s ease;
+    }
+
+    .level-card.unlocked:hover{
+      transform:translateY(-4px);
+      box-shadow:0 16px 28px rgba(0,0,0,.52);
+    }
+
+    .card-top{
+      height:75px;
+      background:linear-gradient(135deg, #f4e0c6 0%, #c99562 100%);
+      clip-path:polygon(0 0,100% 0,84% 100%,16% 100%);
+      border-bottom:1px solid rgba(0,0,0,.2);
+    }
+
+    .card-body{
+      flex:1;
+      padding:18px;
+      text-align:center;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:8px;
+    }
+
+    .level-title{
+      margin:0;
+      font-family:'Changa One', sans-serif;
+      font-size:38px;
+      color:var(--gold-soft);
+      letter-spacing:.5px;
+    }
+
+    .level-text{
+      margin:0;
+      font-size:26px;
+      color:#efe6d8;
+    }
+
+    .badge{
+      width:max-content;
+      margin:8px auto 0;
+      border-radius:8px;
+      padding:4px 10px;
+      font-size:20px;
+      letter-spacing:.3px;
+      border:1px solid rgba(0,0,0,.2);
+    }
+
+    .badge.ok{ background:var(--ok); color:#fff; }
+    .badge.lock{ background:#6b5a4c; color:#f5e6d6; }
+
+    .level-card.locked{
+      opacity:.75;
+      cursor:not-allowed;
+      filter:grayscale(.25);
+    }
+
+    .footer-help{
+      margin-top:20px;
+      font-size:24px;
+      color:var(--muted);
+      text-align:center;
+    }
+
+    @media (max-width:640px){
+      .brand{font-size:34px}
+      .subtitle{font-size:22px}
+      .level-title{font-size:32px}
+    }
+
+.level-card { position: relative; }
+
+.level-stamp{
+  position:absolute;
+  top:14px;
+  right:45px;
+  z-index:5;
+  border:5px double #e63946;
+  color:#e63946;
+  background:rgba(255,255,255,0.9);
+  font-family:'Changa One', sans-serif;
+  font-size:22px;
+  padding:4px 10px;
+  border-radius:10px;
+  transform:rotate(-12deg);
+  text-transform:uppercase;
+  pointer-events:none;
+}
+
+.level-time{
+  margin-top:6px;
+  font-size:22px;
+  color:#ffd8b0;
+  font-weight:700;
+}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <div>
+        <h1 class="brand">Misterio Bíblico</h1>
+        <p class="subtitle">Selecciona un nivel</p>
+      </div>
+    </header>
+
+    <section class="chips">
+      <button class="chip active" type="button" data-filter="all">Todos</button>
+      <button class="chip" type="button" data-filter="muy-facil">Muy fácil</button>
+      <button class="chip" type="button" data-filter="facil">Fácil</button>
+      <button class="chip" type="button" data-filter="medio">Medio</button>
+      <button class="chip" type="button" data-filter="dificil">Difícil</button>
+    </section>
+
+    <section id="levels-grid" class="grid"></section>
+
+<script src="./progress.js"></script>
+<script>
+  const totalLevels = 20;
+  const grid = document.getElementById("levels-grid");
+  const unlockedUpTo = MBProgress.getUnlockedLevel();
+
+function formatTime(totalSeconds) {
+  const mm = String(Math.floor(totalSeconds / 60)).padStart(2, "0");
+  const ss = String(totalSeconds % 60).padStart(2, "0");
+  return `${mm}:${ss}`;
+}
+
+function getDifficulty(level) {
+  if (level >= 1 && level <= 3) return "muy-facil";
+  if (level >= 4 && level <= 7) return "facil";
+  if (level >= 8 && level <= 14) return "medio";
+  return "dificil"; // 15 al 18
+}
+
+function getDifficultyLabel(diff) {
+  if (diff === "muy-facil") return "Muy fácil";
+  if (diff === "facil") return "Fácil";
+  if (diff === "medio") return "Medio";
+  return "Difícil";
+}
+
+  for (let level = 1; level <= totalLevels; level++) {
+    const unlocked = level <= unlockedUpTo;
+
+    const completed = localStorage.getItem(`mb_level_${level}_completed`) === "true";
+    const bestTime = Number(localStorage.getItem(`mb_level_${level}_best_time`) || 0);
+    const bestTimeText = bestTime > 0 ? formatTime(bestTime) : "--:--";
+
+    const difficulty = getDifficulty(level);
+    const difficultyLabel = getDifficultyLabel(difficulty);
+
+    const card = document.createElement("a");
+    card.className = `level-card ${unlocked ? "unlocked" : "locked"}`;
+    card.dataset.difficulty = difficulty;
+    card.href = unlocked ? `./nivel${level}.html` : "javascript:void(0)";
+    card.innerHTML = `
+      ${completed ? `<div class="level-stamp">RESUELTO</div>` : ""}
+      <div class="card-top"></div>
+      <div class="card-body">
+        <h2 class="level-title">NIVEL ${level}</h2>
+        <p class="level-text">${unlocked ? "Disponible" : "Bloqueado"}</p>
+        ${completed ? `<p class="level-time">Tiempo: ${bestTimeText}</p>` : ""}
+        <p class="level-text">${difficultyLabel}</p>
+        <span class="badge ${unlocked ? "ok" : "lock"}">${unlocked ? "JUGAR" : "BLOQUEADO"}</span>
+      </div>
+    `;
+
+    if (!unlocked) {
+      card.addEventListener("click", (e) => {
+        e.preventDefault();
+        alert(`Completa niveles anteriores para desbloquear el Nivel ${level}.`);
+      });
+    }
+
+    grid.appendChild(card);
+  }
+</script>
+
+    <p class="footer-help">© 2026 Fe en Juego. Todos los derechos reservados.</p>
+  </main>
+
+<script>
+  // Si nivel 1 se completó, habilitar nivel 2
+
+  const card2 = document.getElementById("card-level-2");
+  const text2 = document.getElementById("level-2-text");
+  const badge2 = document.getElementById("level-2-badge");
+
+  if (level1Completed) {
+    card2.classList.remove("locked");
+    card2.classList.add("unlocked");
+    card2.href = "./nivel2.html"; // cambia ruta si tu nivel2 está en otra carpeta
+    text2.textContent = "Desbloqueado";
+    badge2.textContent = "JUGAR";
+    badge2.classList.remove("lock");
+    badge2.classList.add("ok");
+  } else {
+    card2.addEventListener("click", (e) => {
+      e.preventDefault();
+      alert("Completa el Nivel 1 para desbloquear este nivel.");
+    });
+  }
+</script>
+
+<script>
+const chips = document.querySelectorAll(".chip");
+const cards = () => document.querySelectorAll(".level-card");
+
+chips.forEach((chip) => {
+  chip.addEventListener("click", () => {
+    chips.forEach(c => c.classList.remove("active"));
+    chip.classList.add("active");
+
+    const filter = chip.dataset.filter;
+
+    cards().forEach((card) => {
+      const cardDiff = card.dataset.difficulty;
+      const show = filter === "all" || cardDiff === filter;
+      card.style.display = show ? "flex" : "none";
+    });
+  });
+});
+</script>
+</body>
+</html>
