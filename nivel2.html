@@ -272,28 +272,6 @@
 </head>
 <body>
 
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/h7bmcornnd02vfpb0d5ot/Jetro.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/a05w41psvnyx9zvtkxf95/Fara-n.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/t8702x3noh8rrirbtnuml/Safira.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/dlhoqudmaocy60wrw74kh/Aar-n.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/ut0wksd3y3o782x0l25x5/Mois-s.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/o32fts2f8m1r15axidhg6/Forti.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/q2tm14xzuechmom2l03t2/cama-1.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/dihbbxhrscnkkc9pwqa7i/cama-2.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/rg0xn2hj3w68rj25w8ppk/planta.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/xf1n91jae2tzf5fp36bfu/Tronco-1.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/r0zmnga4kfz71pkp4htji/Tronco-2.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/qc0kmqokmso0lqhkeyg8l/Tronco-3a.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/8m1131z6zlcoo9d3lhar7/Tronco-3b.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/kfscrgff2ppd0sddfyu36/mesa-horizontal-1.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/ipgrryo0puyoov4iwytsh/mesa-horizontal-2.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/lk7mt6bx98ht29ew6has2/Cactus-1.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/16p2c1djkax5nxaewdb36/Cactus-2.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/v464lpf1acxtm4h5512xy/Cactus-3.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/nf43gb01kb7gu702z2oqm/Zarza.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/1az1ngwnmvsufsn9srdwo/Planta-1.png?dl=1">
-<link rel="preload" as="image" href="https://www.dropbox.com/scl/fi/2th6s7i4yfrbbwm6iyr13/X.png?dl=1">
-
 <div id="loader-wrapper">
     <div class="spinner"></div>
     <div style="font-family: 'Changa One', sans-serif; color: #e0e0e0;">Cargando Misterio...</div>
@@ -369,36 +347,36 @@
 <script src="./progress.js"></script>
 <script>
 const suspects = [
-    {name:"Jetro", icon:"https://www.dropbox.com/scl/fi/h7bmcornnd02vfpb0d5ot/Jetro.png?dl=1", clue: "Él estaba al lado de un cactus."},
-    {name:"Faraón", icon:"https://www.dropbox.com/scl/fi/a05w41psvnyx9zvtkxf95/Fara-n.png?dl=1", clue: "Él se encontraba en la cama."},
-    {name:"Safira", icon:"https://www.dropbox.com/scl/fi/t8702x3noh8rrirbtnuml/Safira.png?dl=1", clue: "Ella era la única persona sentada en un tronco."},
-    {name:"Aarón", icon:"https://www.dropbox.com/scl/fi/dlhoqudmaocy60wrw74kh/Aar-n.png?dl=1", clue: "Él se encontraba en la entrada."},
-    {name:"Moisés", icon:"https://www.dropbox.com/scl/fi/ut0wksd3y3o782x0l25x5/Mois-s.png?dl=1", clue: "Él estaba al lado de la zarza ardiente."},
-    {name:"Forti", icon:"https://www.dropbox.com/scl/fi/o32fts2f8m1r15axidhg6/Forti.png?dl=1", clue: "Él estaba en la casilla que queda vacía."}
+    {name:"Jetro", icon:"imagenes/personajes/jetro.png", clue: "Él estaba al lado de un cactus."},
+    {name:"Faraón", icon:"imagenes/personajes/faraon.png", clue: "Él se encontraba en la cama."},
+    {name:"Safira", icon:"imagenes/personajes/safira.png", clue: "Ella era la única persona sentada en un tronco."},
+    {name:"Aarón", icon:"imagenes/personajes/aaron.png", clue: "Él se encontraba en la entrada."},
+    {name:"Moisés", icon:"imagenes/personajes/moises.png", clue: "Él estaba al lado de la zarza ardiente."},
+    {name:"Forti", icon:"imagenes/personajes/forti.png", clue: "Él estaba en la casilla que queda vacía."}
 ];
 
 const objects = [
-    {r:0, c:0, img: "https://www.dropbox.com/scl/fi/q2tm14xzuechmom2l03t2/cama-1.png?dl=1", p:true, scale: "103%"}, 
-    {r:0, c:1, img: "https://www.dropbox.com/scl/fi/dihbbxhrscnkkc9pwqa7i/cama-2.png?dl=1", p:true, scale: "103%"},
-    {r:0, c:4, img: "https://www.dropbox.com/scl/fi/rg0xn2hj3w68rj25w8ppk/planta.png?dl=1", p:false, scale: "85%"}, 
-    {r:2, c:1, img: "https://www.dropbox.com/scl/fi/rg0xn2hj3w68rj25w8ppk/planta.png?dl=1", p:false, scale: "85%"},
-    {r:5, c:5, img: "https://www.dropbox.com/scl/fi/1az1ngwnmvsufsn9srdwo/Planta-1.png?dl=1", p:false, scale: "85%"},
-    {r:0, c:5, img: "https://www.dropbox.com/scl/fi/r0zmnga4kfz71pkp4htji/Tronco-2.png?dl=1", p:true, scale: "70%"}, 
-    {r:1, c:3, img: "https://www.dropbox.com/scl/fi/r0zmnga4kfz71pkp4htji/Tronco-2.png?dl=1", p:true, scale: "70%"}, 
-    {r:2, c:3, img: "https://www.dropbox.com/scl/fi/qc0kmqokmso0lqhkeyg8l/Tronco-3a.png?dl=1", p:true, scale: "101%"},
-    {r:2, c:4, img: "https://www.dropbox.com/scl/fi/8m1131z6zlcoo9d3lhar7/Tronco-3b.png?dl=1", p:true, scale: "101%"}, 
-    {r:4, c:2, img: "https://www.dropbox.com/scl/fi/xf1n91jae2tzf5fp36bfu/Tronco-1.png?dl=1", p:true, scale: "98%"}, 
-    {r:4, c:4, img: "https://www.dropbox.com/scl/fi/xf1n91jae2tzf5fp36bfu/Tronco-1.png?dl=1", p:true, scale: "98%"}, 
-    {r:5, c:0, img: "https://www.dropbox.com/scl/fi/kfscrgff2ppd0sddfyu36/mesa-horizontal-1.png?dl=1", p:false, scale: "102%"},
-    {r:5, c:1, img: "https://www.dropbox.com/scl/fi/ipgrryo0puyoov4iwytsh/mesa-horizontal-2.png?dl=1", p:false, scale: "106%"},
-    {r:2, c:0, img: "https://www.dropbox.com/scl/fi/lk7mt6bx98ht29ew6has2/Cactus-1.png?dl=1", p:false, scale: "90%"},
-    {r:4, c:0, img: "https://www.dropbox.com/scl/fi/16p2c1djkax5nxaewdb36/Cactus-2.png?dl=1", p:false, scale: "90%"}, 
-    {r:5, c:2, img: "https://www.dropbox.com/scl/fi/v464lpf1acxtm4h5512xy/Cactus-3.png?dl=1", p:false, scale: "90%"},
-    {r:4, c:5, img: "https://www.dropbox.com/scl/fi/nf43gb01kb7gu702z2oqm/Zarza.png?dl=1", p:false, scale: "85%"},
+    {r:0, c:0, img: "imagenes/elementos/cama-1.png", p:true, scale: "103%"}, 
+    {r:0, c:1, img: "imagenes/elementos/cama-2.png", p:true, scale: "103%"},
+    {r:0, c:4, img: "imagenes/elementos/planta.png", p:false, scale: "85%"}, 
+    {r:2, c:1, img: "imagenes/elementos/planta.png", p:false, scale: "85%"},
+    {r:5, c:5, img: "imagenes/elementos/planta-1.png", p:false, scale: "85%"},
+    {r:0, c:5, img: "imagenes/elementos/tronco-2.png", p:true, scale: "70%"}, 
+    {r:1, c:3, img: "imagenes/elementos/tronco-2.png", p:true, scale: "70%"}, 
+    {r:2, c:3, img: "imagenes/elementos/tronco-3a.png", p:true, scale: "101%"},
+    {r:2, c:4, img: "imagenes/elementos/tronco-3b.png", p:true, scale: "101%"}, 
+    {r:4, c:2, img: "imagenes/elementos/tronco-1.png", p:true, scale: "98%"}, 
+    {r:4, c:4, img: "imagenes/elementos/tronco-1.png", p:true, scale: "98%"}, 
+    {r:5, c:0, img: "imagenes/elementos/mesa-horizontal-1.png", p:false, scale: "102%"},
+    {r:5, c:1, img: "imagenes/elementos/mesa-horizontal-2.png", p:false, scale: "106%"},
+    {r:2, c:0, img: "imagenes/elementos/cactus-1.png", p:false, scale: "90%"},
+    {r:4, c:0, img: "imagenes/elementos/cactus-2.png", p:false, scale: "90%"}, 
+    {r:5, c:2, img: "imagenes/elementos/cactus-3.png", p:false, scale: "90%"},
+    {r:4, c:5, img: "imagenes/elementos/zarza.png", p:false, scale: "85%"},
 
 ];
 
-const blockXImg = "https://www.dropbox.com/scl/fi/2th6s7i4yfrbbwm6iyr13/X.png?dl=1";
+const blockXImg = "imagenes/elementos/X.png";
 
 const roomMap = [['A','A','A','A','B','B'],['A','A','A','A','B','B'],['A','A','C','C','C','B'],['D','D','C','C','C','C'],['D','D','C','C','C','C'],['D','D','C','C','C','C']];
 const roomLabels = [{r:2, c:0, text:"Dormitorio"}, {r:5, c:0, text:"Entrada"}, {r:5, c:3, text:"Desierto"}, {r:1, c:4, text:"Patio"}];
