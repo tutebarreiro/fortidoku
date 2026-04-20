@@ -407,7 +407,7 @@ const blockXImg = "imagenes/elementos/X.png";
 
 const roomMap = [['A','A','A','B','B','B','A','C','C'],['A','A','B','B','B','B','A','C','C'],['A','A','B','A','A','A','A','C','C'],['A','A','A','A','A','A','A','A','A'],['D','D','D','A','E','E','E','E','E'],['D','A','A','A','E','E','E','E','E'],['A','A','F','G','G','G','H','H','H'],['F','F','F','G','G','G','H','H','H'],['F','F','F','G','G','G','H','H','H']];
 const roomLabels = [{r:2, c:1, text:"Palacio"}, {r:5, c:2, text:"Campo"}, {r:2, c:4, text:"Jardín"}, {r:0, c:4, text:"Cueva"}];
-const solution = { "Eliseo": [5,4], "Elías": [4,3], "Jezabel": [0,1], "Acab": [2,5], "Safat": [3,2], "Forti": [1,0], "Jezabel1": [7,5], "Acab 1": [8,2], "Safat 1": [6,4] };
+const solution = { "Eliseo": [5,4], "Elías": [4,3], "Jezabel": [0,1], "Acab": [2,5], "Safat": [3,2], "Forti": [1,0], "Jezabel1": [7,5], "Acab1": [8,2], "Safat1": [6,4] };
 
 let board = Array(9).fill().map(() => Array(9).fill(null)), manualBlocks = Array(9).fill().map(() => Array(9).fill(false)), autoBlocks = Array(9).fill().map(() => Array(9).fill(false)), notes = Array(9).fill().map(() => Array(9).fill().map(() => new Set())), history = [];
 let prevAutoBlocks = Array(9).fill().map(() => Array(9).fill(false));
