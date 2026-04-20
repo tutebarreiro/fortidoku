@@ -385,7 +385,7 @@ const blockXImg = "imagenes/elementos/X.png";
 
 const roomMap = [['A','A','A','B','B','B','A','C','C'],['A','A','B','B','B','B','A','C','C'],['A','A','B','A','A','A','A','C','C'],['A','A','A','A','A','A','A','A','A'],['D','D','D','A','E','E','E','E','E'],['D','A','A','A','E','E','E','E','E'],['A','A','F','G','G','G','H','H','H'],['F','F','F','G','G','G','H','H','H'],['F','F','F','G','G','G','H','H','H']];
 const roomLabels = [{r:2, c:1, text:"Palacio"}, {r:5, c:2, text:"Campo"}, {r:2, c:4, text:"Jardín"}, {r:0, c:4, text:"Cueva"}];
-const solution = { "Eliseo": [5,4], "Elías": [4,3], "Jezabel": [0,1], "Acab": [2,5], "Safat": [3,2], "Forti": [1,0], "Jezabel 1": [7,5], "Acab 1": [8,2], "Safat 1": [6,4] }, "Jezabel1": [0,1], "Acab1": [2,5], "Safat1": [3,2] };
+const solution = { "Eliseo": [5,4], "Elías": [4,3], "Jezabel": [0,1], "Acab": [2,5], "Safat": [3,2], "Forti": [1,0], "Jezabel1": [7,5], "Acab 1": [8,2], "Safat 1": [6,4] };
 
 let board = Array(9).fill().map(() => Array(9).fill(null)), manualBlocks = Array(9).fill().map(() => Array(9).fill(false)), autoBlocks = Array(9).fill().map(() => Array(9).fill(false)), notes = Array(9).fill().map(() => Array(9).fill().map(() => new Set())), history = [];
 let prevAutoBlocks = Array(9).fill().map(() => Array(9).fill(false));
@@ -540,7 +540,7 @@ function drawGrid() {
                 circle.style.transition = 'stroke-dashoffset 800ms linear'; circle.style.strokeDashoffset = '0';
                 holdTimer = setTimeout(() => { 
                     saveState(); notes[r][c].clear();
-                    for(let i=0; i<6; i++) for(let j=0; j<6; j++) if(board[i][j] === selectedSuspect) board[i][j] = null;
+                    for(let i=0; i<9; i++) for(let j=0; j<9; j++) if(board[i][j] === selectedSuspect) board[i][j] = null;
                     board[r][c] = selectedSuspect; 
                     lastPlaced = {r,c};
                     recalculateAutoBlocks(); 
@@ -608,7 +608,7 @@ if (board[r][c] === null && !isBlocked) suspects.forEach((s, idx) => {
 
 function drawSuspects() {
     const s = document.getElementById("suspects-container"); s.innerHTML = "";
-    const placed = new Set(); for(let r=0; r<6; r++) for(let c=0; c<6; c++) if(board[r][c] !== null) placed.add(board[r][c]);
+    const placed = new Set(); for(let r=0; r<9; r++) for(let c=0; c<9; c++) if(board[r][c] !== null) placed.add(board[r][c]);
     suspects.forEach((sus, i) => {
         let div = document.createElement("div"); div.className = `suspect ${placed.has(i) ? 'placed' : ''} ${selectedSuspect === i ? 'selected' : ''}`;
         div.innerHTML = `<img src="${sus.icon}"><span class="suspect-name">${sus.name}</span><div class="clue-text">${sus.clue}</div>`;
