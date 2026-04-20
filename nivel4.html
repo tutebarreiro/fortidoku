@@ -270,7 +270,7 @@
     .room-G { background-color: #8f6b4a; }
     .room-H { background-color: black; }
     .br { border-right: 5px solid #2c2c2c !important; } .bb { border-bottom: 5px solid #2c2c2c !important; }
-    .room-label { position: absolute; bottom: -5px; left: 8px; z-index: 45; font-weight: 900; font-size: 35px; font-family: 'Changa One', sans-serif; color: black; text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff; pointer-events: none; }
+    .room-label { position: absolute; bottom: -5px; left: 8px; z-index: 45; font-weight: 900; font-size: 25px; font-family: 'Changa One', sans-serif; color: black; text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff; pointer-events: none; }
 #timer-panel {
     margin-top: 12px;
     display: flex;
@@ -397,7 +397,7 @@ const objects = [
 const blockXImg = "imagenes/elementos/X.png";
 
 const roomMap = [['A','A','A','B','B','B','A','C','C'],['A','A','B','B','B','B','A','C','C'],['A','A','B','A','A','A','A','C','C'],['A','A','A','A','A','A','A','A','A'],['D','D','D','A','E','E','E','E','E'],['D','A','A','A','E','E','E','E','E'],['A','A','F','G','G','G','H','H','H'],['F','F','F','G','G','G','H','H','H'],['F','F','F','G','G','G','H','H','H']];
-const roomLabels = [{r:1, c:3, text:"Lago"}, {r:8, c:1, text:"Campo"}, {r:5, c:2, text:"Jardín"}, {r:2, c:7, text:"Cueva"}, {r:4, c:1, text:"Cuarto 1"}, {r:5, c:6, text:"Cuarto 2"}, {r:8, c:4, text:"Cuarto 3"}, {r:8, c:7, text:"Cuarto 4"}];
+const roomLabels = [{r:1, c:3, text:"Lago"}, {r:8, c:1, text:"Dormitorio"}, {r:5, c:2, text:"Jardín"}, {r:2, c:7, text:"Cueva"}, {r:4, c:1, text:"Almacén"}, {r:5, c:6, text:"Recepción"}, {r:8, c:4, text:"Salón"}, {r:8, c:7, text:"Biblioteca"}];
 const solution = { "Eliseo": [5,4], "Elías": [4,3], "Jezabel": [0,1], "Acab": [2,5], "Safat": [3,2], "Forti": [1,0], "Jezabel1": [7,5], "Acab1": [8,2], "Safat1": [6,4] };
 
 let board = Array(9).fill().map(() => Array(9).fill(null)), manualBlocks = Array(9).fill().map(() => Array(9).fill(false)), autoBlocks = Array(9).fill().map(() => Array(9).fill(false)), notes = Array(9).fill().map(() => Array(9).fill().map(() => new Set())), history = [];
