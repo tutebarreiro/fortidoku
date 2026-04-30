@@ -386,8 +386,8 @@ const roomMap = [['A','A','B','B','C','C','C'],['A','A','B','B','C','C','C'],['D
 const roomLabels = [{r:1, c:3, text:"Lago"}, {r:5, c:1, text:"Dormitorio"}, {r:5, c:2, text:"Jardín"}, {r:2, c:1, text:"Cueva"}];
 const solution = { "Jonatán": [1,5], "Abner": [4,1], "Samuel": [0,0], "Ahinoam": [6,2], "Saúl": [1,4], "Forti": [3,7], "Mical": [5,6]};
 
-let board = Array(9).fill().map(() => Array(9).fill(null)), manualBlocks = Array(9).fill().map(() => Array(9).fill(false)), autoBlocks = Array(9).fill().map(() => Array(9).fill(false)), notes = Array(9).fill().map(() => Array(9).fill().map(() => new Set())), history = [];
-let prevAutoBlocks = Array(9).fill().map(() => Array(9).fill(false));
+let board = Array(7).fill().map(() => Array(7).fill(null)), manualBlocks = Array(7).fill().map(() => Array(7).fill(false)), autoBlocks = Array(7).fill().map(() => Array(7).fill(false)), notes = Array(7).fill().map(() => Array(7).fill().map(() => new Set())), history = [];
+let prevAutoBlocks = Array(7).fill().map(() => Array(7).fill(false));
 let selectedSuspect = 0, currentTool = null, holdTimer, holdDelayTimer, isVerifying = false, gameWon = false, lastPlaced = null;
 let elapsedSeconds = 0;
 let timerInterval = null;
@@ -494,12 +494,12 @@ function recalculateAutoBlocks() {
     prevAutoBlocks = autoBlocks.map(row => [...row]);
 
     // Recalculamos
-    autoBlocks = Array(9).fill().map(() => Array(9).fill(false));
+    autoBlocks = Array(7).fill().map(() => Array(7).fill(false));
 
-    for (let r=0; r<9; r++) {
-        for (let c=0; c<9; c++) {
+    for (let r=0; r<7; r++) {
+        for (let c=0; c<7; c++) {
             if (board[r][c] !== null) {
-                for (let i=0; i<9; i++) { 
+                for (let i=0; i<7; i++) { 
                     if (i !== c) autoBlocks[r][i] = true; 
                     if (i !== r) autoBlocks[i][c] = true; 
                 }
@@ -508,7 +508,7 @@ function recalculateAutoBlocks() {
     }
 }
 
-function updateVerifyButton() { document.getElementById('btn-verify').disabled = (board.flat().filter(c => c !== null).length < 9); }
+function updateVerifyButton() { document.getElementById('btn-verify').disabled = (board.flat().filter(c => c !== null).length < 7); }
 
 function drawGrid() {
     const g = document.getElementById("grid");
@@ -517,7 +517,7 @@ function drawGrid() {
     
     if (gameWon) g.classList.add('game-over');
     
-    for (let r=0; r<9; r++) for (let c=0; c<9; c++) {
+    for (let r=0; r<7; r++) for (let c=0; c<7; c++) {
         let cell = document.createElement("div");
         const isBlocked = manualBlocks[r][c] || autoBlocks[r][c];
         const occupable = !objects.find(o => o.r === r && o.c === c && !o.p);
@@ -539,7 +539,7 @@ function drawGrid() {
                 circle.style.transition = 'stroke-dashoffset 800ms linear'; circle.style.strokeDashoffset = '0';
                 holdTimer = setTimeout(() => { 
                     saveState(); notes[r][c].clear();
-                    for(let i=0; i<9; i++) for(let j=0; j<9; j++) if(board[i][j] === selectedSuspect) board[i][j] = null;
+                    for(let i=0; i<7; i++) for(let j=0; j<7; j++) if(board[i][j] === selectedSuspect) board[i][j] = null;
                     board[r][c] = selectedSuspect; 
                     lastPlaced = {r,c};
                     recalculateAutoBlocks(); 
@@ -607,7 +607,7 @@ if (board[r][c] === null && !isBlocked) suspects.forEach((s, idx) => {
 
 function drawSuspects() {
     const s = document.getElementById("suspects-container"); s.innerHTML = "";
-    const placed = new Set(); for(let r=0; r<9; r++) for(let c=0; c<9; c++) if(board[r][c] !== null) placed.add(board[r][c]);
+    const placed = new Set(); for(let r=0; r<7; r++) for(let c=0; c<7; c++) if(board[r][c] !== null) placed.add(board[r][c]);
     suspects.forEach((sus, i) => {
         let div = document.createElement("div"); div.className = `suspect ${placed.has(i) ? 'placed' : ''} ${selectedSuspect === i ? 'selected' : ''}`;
         div.innerHTML = `<img src="${sus.icon}"><span class="suspect-name">${sus.name}</span><div class="clue-text">${sus.clue}</div>`;
@@ -620,7 +620,7 @@ async function checkSolution() {
     isVerifying = true; let allCorrect = true;
     for (let i = 0; i < suspects.length; i++) {
         const correctPos = solution[suspects[i].name]; let found = null;
-        for (let r=0; r<9; r++) for (let c=0; c<9; c++) if (board[r][c] === i) found = {r,c};
+        for (let r=0; r<7; r++) for (let c=0; c<7; c++) if (board[r][c] === i) found = {r,c};
         if (found) {
             const isCorrect = (correctPos[0] === found.r && correctPos[1] === found.c);
             if (!isCorrect) allCorrect = false;
