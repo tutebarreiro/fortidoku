@@ -365,12 +365,12 @@
 <script src="./progress.js"></script>
 <script>
 const suspects = [
-    {name:"1", icon:"imagenes/personajes/jonatan.png", clue: "Él estaba al lado de la piedra."},
-    {name:"2", icon:"imagenes/personajes/abner.png", clue: "Él se encontraba sobre un tronco."},
-    {name:"3", icon:"imagenes/personajes/samuel.png", clue: "Él estaba en una silla. No estaba en el desierto."},
-    {name:"4", icon:"imagenes/personajes/ahinoam.png", clue: "Ella estaba en el desierto."},
-    {name:"5", icon:"imagenes/personajes/saul.png", clue: "Él estaba al lado de una silla."},
-    {name:"6", icon:"imagenes/personajes/mical.png", clue: "Ella estaba sola en el jardín."},
+    {name:"Moisés", icon:"imagenes/personajes/moises.png", clue: "Él estaba al lado de la piedra."},
+    {name:"Aarón", icon:"imagenes/personajes/aaron.png", clue: "Él se encontraba sobre un tronco."},
+    {name:"Faraón", icon:"imagenes/personajes/faraon.png", clue: "Estaba en una silla. No estaba en el desierto."},
+    {name:"María", icon:"imagenes/personajes/mical.png", clue: "Ella estaba en el desierto."},
+    {name:"Amram", icon:"imagenes/personajes/elias.png", clue: "Él estaba al lado de una silla."},
+    {name:"Princesa", icon:"imagenes/personajes/ahinoam.png", clue: "Ella estaba sola en el jardín."},
     {name:"Forti", icon:"imagenes/personajes/forti.png", clue: "Él estaba en la casilla que queda vacía."}
 ];
 
@@ -397,7 +397,7 @@ const blockXImg = "imagenes/elementos/X.png";
 
 const roomMap = [['A','A','B','B','C','C','C'],['A','A','B','B','C','C','C'],['D','B','B','B','C','B','B'],['D','B','B','B','B','B','B'],['D','D','B','B','B','B','B'],['D','D','D','B','B','B','B'],['D','D','D','D','D','D','D']];
 const roomLabels = [{r:1, c:1, text:"Jardín"}, {r:2, c:4, text:"Palacio"}, {r:5, c:5, text:"Desierto"}, {r:6, c:3, text:"Mar Rojo"}];
-const solution = { "1": [5,1], "2": [4,5], "3": [1,6], "4": [2,3], "5": [3,2], "6": [0,0], "Forti": [6,4]};
+const solution = { "Moisés": [5,1], "Aarón": [4,5], "Faraón": [1,6], "María": [2,3], "Amram": [3,2], "Princesa": [0,0], "Forti": [6,4]};
 
 let board = Array(7).fill().map(() => Array(7).fill(null)), manualBlocks = Array(7).fill().map(() => Array(7).fill(false)), autoBlocks = Array(7).fill().map(() => Array(7).fill(false)), notes = Array(7).fill().map(() => Array(7).fill().map(() => new Set())), history = [];
 let prevAutoBlocks = Array(7).fill().map(() => Array(7).fill(false));
