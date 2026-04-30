@@ -82,8 +82,8 @@
         display: grid;
         width: min(85vh, 85vw);   /* se adapta a pantalla */
         height: min(85vh, 85vw);
-        grid-template-columns: repeat(9, 1fr);
-        grid-template-rows: repeat(9, 1fr);
+        grid-template-columns: repeat(7, 1fr);
+        grid-template-rows: repeat(7, 1fr);
         border: 8px solid #3a2f25;
         background: #221d18;
         box-shadow:
@@ -265,10 +265,6 @@
     .room-B { background-color: #37BBD4; background-image: linear-gradient(45deg, rgba(0,0,0,0.2) 2px, transparent 20%); background-size: 30px 30px; } 
     .room-C { background-color: #7e653f; background-image: radial-gradient(45deg, rgba(0,0,0,0.10) 1px, transparent 20%); background-size: 20px 20px; } 
     .room-D { background-color: #7b3d29; background-image: linear-gradient(rgba(0,0,0,0.10) 3px, transparent 20%); background-size: 25px 21.5px; } 
-    .room-E { background-color: #f3e5ab; }
-    .room-F { background-color: white; }
-    .room-G { background-color: #8f6b4a; }
-    .room-H { background-color: black; }
     .br { border-right: 5px solid #2c2c2c !important; } .bb { border-bottom: 5px solid #2c2c2c !important; }
     .room-label { position: absolute; bottom: -5px; left: 8px; z-index: 45; font-weight: 900; font-size: 30px; font-family: 'Changa One', sans-serif; color: black; text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff; pointer-events: none; }
 #timer-panel {
@@ -383,42 +379,12 @@ const suspects = [
 const objects = [
     {r:7, c:1, img: "imagenes/elementos/mesa.png", p:false, scale: "100%"}, 
     {r:7, c:3, img: "imagenes/elementos/mesa.png", p:false, scale: "100%"},
-    {r:4, c:7, img: "imagenes/elementos/mesa.png", p:false, scale: "100%"}, 
-    {r:3, c:8, img: "imagenes/elementos/mesa.png", p:false, scale: "100%"},  
-    {r:4, c:6, img: "imagenes/elementos/silla-2.png", p:true, scale: "85%"},
-    {r:4, c:8, img: "imagenes/elementos/silla-2.png", p:true, scale: "85%"}, 
-    {r:5, c:4, img: "imagenes/elementos/silla-2.png", p:true, scale: "85%"},  
-    {r:8, c:4, img: "imagenes/elementos/silla-2.png", p:true, scale: "85%"},
-    {r:0, c:1, img: "imagenes/elementos/arbol.png", p:false, scale: "105%"},
-    {r:2, c:5, img: "imagenes/elementos/arbol.png", p:false, scale: "105%"},
-    {r:0, c:8, img: "imagenes/elementos/tronco-1.png", p:false, scale: "100%"}, 
-    {r:2, c:7, img: "imagenes/elementos/tronco-1.png", p:false, scale: "100%"},  
-    {r:3, c:0, img: "imagenes/elementos/tronco-1.png", p:false, scale: "100%"},
-    {r:3, c:6, img: "imagenes/elementos/tronco-1.png", p:false, scale: "100%"},
-    {r:6, c:1, img: "imagenes/elementos/tronco-1.png", p:false, scale: "100%"},
-    {r:8, c:0, img: "imagenes/elementos/cama-1.png", p:true, scale: "103%"},
-    {r:8, c:1, img: "imagenes/elementos/cama-2.png", p:true, scale: "103%"},
-    {r:7, c:2, img: "imagenes/elementos/alfombra-vertical-1.png", p:true, scale: "107%"},
-    {r:8, c:2, img: "imagenes/elementos/alfombra-vertical-2.png", p:true, scale: "107%"},
-    {r:5, c:5, img: "imagenes/elementos/alfombra-horizontal-1.png", p:true, scale: "107%"},
-    {r:5, c:6, img: "imagenes/elementos/alfombra-horizontal-2.png", p:true, scale: "107%"},
-    {r:4, c:0, img: "imagenes/elementos/caja.png", p:false, scale: "95%"},
-    {r:6, c:3, img: "imagenes/elementos/caja.png", p:false, scale: "95%"},
-    {r:6, c:5, img: "imagenes/elementos/caja.png", p:false, scale: "95%"},
-    {r:8, c:7, img: "imagenes/elementos/caja.png", p:false, scale: "95%"},
-    {r:7, c:8, img: "imagenes/elementos/mesa-vertical-2.png", p:false, scale: "102%"},
-    {r:8, c:8, img: "imagenes/elementos/mesa-vertical-1.png", p:false, scale: "102%"},
-    {r:8, c:6, img: "imagenes/elementos/alfombra-triple-1.png", p:true, scale: "102%"},
-    {r:7, c:6, img: "imagenes/elementos/alfombra-triple-2.png", p:true, scale: "102%"},
-    {r:7, c:7, img: "imagenes/elementos/alfombra-triple-3.png", p:true, scale: "102%"},
-    {r:6, c:4, img: "imagenes/elementos/planta.png", p:false, scale: "95%"},
-    {r:1, c:2, img: "imagenes/elementos/lily-pad.png", p:false, scale: "92%"},
-    {r:0, c:4, img: "imagenes/elementos/lily-pad.png", p:false, scale: "92%"},
+
 ];
 
 const blockXImg = "imagenes/elementos/X.png";
 
-const roomMap = [['A','A','A','B','B','B','A','C','C'],['A','A','B','B','B','B','A','C','C'],['A','A','B','A','A','A','A','C','C'],['A','A','A','A','A','A','A','A','A'],['D','D','D','A','E','E','E','E','E'],['D','A','A','A','E','E','E','E','E'],['A','A','F','G','G','G','H','H','H'],['F','F','F','G','G','G','H','H','H'],['F','F','F','G','G','G','H','H','H']];
+const roomMap = [['A','A','B','B','C','C','C'],['A','A','B','B','C','C','C'],['D','B','B','B','C','B','B'],['D','B','B','B','B','B','B'],['D','D','B','B','B','B','B'],['D','D','D','B','B','B','B'],['D','D','D','D','D','D','D']];
 const roomLabels = [{r:1, c:3, text:"Lago"}, {r:8, c:1, text:"Dormitorio"}, {r:5, c:2, text:"Jardín"}, {r:2, c:7, text:"Cueva"}, {r:4, c:1, text:"Almacén"}, {r:5, c:6, text:"Recepción"}, {r:8, c:4, text:"Salón"}, {r:8, c:7, text:"Biblioteca"}];
 const solution = { "Jonatán": [7,5], "Abner": [4,1], "Samuel": [0,0], "Ahinoam": [6,2], "Saúl": [8,4], "Forti": [3,7], "Mical": [5,6], "David": [2,8], "Ahimelec": [1,3] };
 
