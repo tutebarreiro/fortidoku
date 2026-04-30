@@ -365,28 +365,26 @@
 <script src="./progress.js"></script>
 <script>
 const suspects = [
-    {name:"Jonatán", icon:"imagenes/personajes/jonatan.png", clue: "Él estaba con Saúl en el salón del palacio."},
-    {name:"Abner", icon:"imagenes/personajes/abner.png", clue: "Él se encontraba en almacén."},
-    {name:"Samuel", icon:"imagenes/personajes/samuel.png", clue: "Él se encontraba al lado de un árbol."},
-    {name:"Ahinoam", icon:"imagenes/personajes/ahinoam.png", clue: "Ella estaba en el dormitorio o en la recepción."},
-    {name:"Saúl", icon:"imagenes/personajes/saul.png", clue: "Él estaba sentado en una silla."},
-    {name:"Mical", icon:"imagenes/personajes/mical.png", clue: "Ella estaba sobre una alfombra."},
-    {name:"David", icon:"imagenes/personajes/david.png", clue: "Él se encontraba en la cueva."},
-    {name:"Ahimelec", icon:"imagenes/personajes/ahimelec.png", clue: "Él se encontraba solo."},
+    {name:"Jonatán", icon:"imagenes/personajes/jonatan.png", clue: "Él estaba al lado de la piedra."},
+    {name:"Abner", icon:"imagenes/personajes/abner.png", clue: "Él se encontraba sobre una alfombra."},
+    {name:"Samuel", icon:"imagenes/personajes/samuel.png", clue: "Él estaba sentado en una silla. No estaba en la playa."},
+    {name:"Ahinoam", icon:"imagenes/personajes/ahinoam.png", clue: "Ella estaba en la playa."},
+    {name:"Saúl", icon:"imagenes/personajes/saul.png", clue: "Él estaba al lado de una silla."},
+    {name:"Mical", icon:"imagenes/personajes/mical.png", clue: "Ella estaba solo en el puesto de socorro."},
     {name:"Forti", icon:"imagenes/personajes/forti.png", clue: "Él estaba en la casilla que queda vacía."}
 ];
 
 const objects = [
-    {r:7, c:1, img: "imagenes/elementos/mesa.png", p:false, scale: "100%"}, 
-    {r:7, c:3, img: "imagenes/elementos/mesa.png", p:false, scale: "100%"},
+    {r:6, c:1, img: "imagenes/elementos/mesa.png", p:false, scale: "100%"}, 
+    {r:6, c:3, img: "imagenes/elementos/mesa.png", p:false, scale: "100%"},
 
 ];
 
 const blockXImg = "imagenes/elementos/X.png";
 
 const roomMap = [['A','A','B','B','C','C','C'],['A','A','B','B','C','C','C'],['D','B','B','B','C','B','B'],['D','B','B','B','B','B','B'],['D','D','B','B','B','B','B'],['D','D','D','B','B','B','B'],['D','D','D','D','D','D','D']];
-const roomLabels = [{r:1, c:3, text:"Lago"}, {r:8, c:1, text:"Dormitorio"}, {r:5, c:2, text:"Jardín"}, {r:2, c:7, text:"Cueva"}, {r:4, c:1, text:"Almacén"}, {r:5, c:6, text:"Recepción"}, {r:8, c:4, text:"Salón"}, {r:8, c:7, text:"Biblioteca"}];
-const solution = { "Jonatán": [7,5], "Abner": [4,1], "Samuel": [0,0], "Ahinoam": [6,2], "Saúl": [8,4], "Forti": [3,7], "Mical": [5,6], "David": [2,8], "Ahimelec": [1,3] };
+const roomLabels = [{r:1, c:3, text:"Lago"}, {r:5, c:1, text:"Dormitorio"}, {r:5, c:2, text:"Jardín"}, {r:2, c:1, text:"Cueva"}];
+const solution = { "Jonatán": [1,5], "Abner": [4,1], "Samuel": [0,0], "Ahinoam": [6,2], "Saúl": [1,4], "Forti": [3,7], "Mical": [5,6]};
 
 let board = Array(9).fill().map(() => Array(9).fill(null)), manualBlocks = Array(9).fill().map(() => Array(9).fill(false)), autoBlocks = Array(9).fill().map(() => Array(9).fill(false)), notes = Array(9).fill().map(() => Array(9).fill().map(() => new Set())), history = [];
 let prevAutoBlocks = Array(9).fill().map(() => Array(9).fill(false));
