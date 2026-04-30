@@ -383,7 +383,7 @@ const objects = [
 const blockXImg = "imagenes/elementos/X.png";
 
 const roomMap = [['A','A','B','B','C','C','C'],['A','A','B','B','C','C','C'],['D','B','B','B','C','B','B'],['D','B','B','B','B','B','B'],['D','D','B','B','B','B','B'],['D','D','D','B','B','B','B'],['D','D','D','D','D','D','D']];
-const roomLabels = [{r:1, c:3, text:"Lago"}, {r:5, c:1, text:"Dormitorio"}, {r:5, c:2, text:"Jardín"}, {r:2, c:1, text:"Cueva"}];
+const roomLabels = [{r:1, c:1, text:"Jardín"}, {r:2, c:4, text:"Palacio"}, {r:5, c:5, text:"Desierto"}, {r:6, c:3, text:"Mar Rojo"}];
 const solution = { "Jonatán": [1,5], "Abner": [4,1], "Samuel": [0,0], "Ahinoam": [6,2], "Saúl": [1,4], "Forti": [3,6], "Mical": [5,6]};
 
 let board = Array(7).fill().map(() => Array(7).fill(null)), manualBlocks = Array(7).fill().map(() => Array(7).fill(false)), autoBlocks = Array(7).fill().map(() => Array(7).fill(false)), notes = Array(7).fill().map(() => Array(7).fill().map(() => new Set())), history = [];
