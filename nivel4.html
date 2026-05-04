@@ -527,8 +527,8 @@ function drawGrid() {
         const occupable = !objects.find(o => o.r === r && o.c === c && !o.p);
         cell.className = `cell room-${roomMap[r][c]} ${(!occupable || isBlocked) ? 'blocked' : ''}`;
         cell.id = `cell-${r}-${c}`;
-        if (c < 8 && roomMap[r][c] !== roomMap[r][c+1]) cell.classList.add('br');
-        if (r < 8 && roomMap[r][c] !== roomMap[r+1][c]) cell.classList.add('bb');
+        if (c < 7 && roomMap[r][c] !== roomMap[r][c+1]) cell.classList.add('br');
+        if (r < 7 && roomMap[r][c] !== roomMap[r+1][c]) cell.classList.add('bb');
         
         const label = roomLabels.find(l => l.r === r && l.c === c);
         if (label) { let s = document.createElement("span"); s.className = "room-label"; s.innerText = label.text; cell.appendChild(s); }
