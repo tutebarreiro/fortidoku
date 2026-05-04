@@ -671,18 +671,18 @@ async function checkSolution() {
         gameWon = true; 
         stopTimer();
 
-        // Guardar estado resuelto del nivel 4
-        localStorage.setItem("mb_level_4_completed", "true");
+        // Guardar estado resuelto del nivel 5
+        localStorage.setItem("mb_level_5_completed", "true");
 
-        // Guardar mejor tiempo del nivel 4
-        const timeKey = "mb_level_4_best_time";
+        // Guardar mejor tiempo del nivel 5
+        const timeKey = "mb_level_5_best_time";
         const prevBest = Number(localStorage.getItem(timeKey) || 0);
         if (prevBest === 0 || elapsedSeconds < prevBest) {
         localStorage.setItem(timeKey, String(elapsedSeconds));
         }
 
-        // Desbloquear nivel 3
-        MBProgress.unlockNextLevel(4);
+        // Desbloquear nivel 5
+        MBProgress.unlockNextLevel(5);
 
         document.getElementById("grid").classList.add("game-over");
         document.getElementById("solved-stamp").classList.add("stamped"); 
